@@ -6,7 +6,9 @@
 	"author": "",
 	"license": "ISC",
 	"description": "",
-	"dependencies": {},
+	"dependencies": {
+		"mongoose": "^8.18.0"
+	},
 	"engines": {
 		"node": ">=18"
 	}
