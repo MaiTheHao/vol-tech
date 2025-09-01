@@ -14,6 +14,14 @@ const UserSchema = new mongoose.Schema(
 			lowercase: true,
 			trim: true,
 		},
+		passwordHashed: {
+			type: String,
+			required: true,
+		},
+		salt: {
+			type: Buffer,
+			required: true,
+		},
 		birthDate: {
 			type: Date,
 			required: true,
