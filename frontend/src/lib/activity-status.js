@@ -1,10 +1,14 @@
+import ACTIVITY_STATUS from '../../../backend/enums/activity_status.enum.js';
+import USER_ACTIVITY_STATUS from '../../../backend/enums/user-activity_status.enum.js';
+
 const statusLabels = {
-	0: 'Đang mở',
-	1: 'Đang diễn ra',
-	2: 'Đã kết thúc',
-	3: 'Đã đủ người',
-	4: 'Bạn đang tham gia',
-	5: 'Bạn đã tham gia',
+	[ACTIVITY_STATUS.OPEN]: 'Đang mở',
+	[ACTIVITY_STATUS.ONGOING]: 'Đang diễn ra',
+	[ACTIVITY_STATUS.ENDED]: 'Đã kết thúc',
+	[ACTIVITY_STATUS.FULL]: 'Đã đủ người',
+	[USER_ACTIVITY_STATUS.REGISTERED]: 'Bạn đã đăng ký',
+	[USER_ACTIVITY_STATUS.JOINING]: 'Bạn đang tham gia',
+	[USER_ACTIVITY_STATUS.JOINED]: 'Bạn đã tham gia',
 };
 
 const labelToStatus = Object.fromEntries(

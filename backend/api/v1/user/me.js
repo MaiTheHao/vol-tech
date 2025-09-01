@@ -1,19 +1,29 @@
-import UserRepository from '../../../repository/user.repository.js';
+import withCors from '../../../lib/cors.js';
+import userRepository from '../../../repository/user.repository.js';
+import tokenService from '../../../services/token.service.js';
+import { extractBearerToken, sendJsonResponse } from '../../../utils/index.js';
 
-export default async function handler(req, res) {
+export default withCors(async function handler(req, res) {
 	try {
-		const userId = req.headers['x-user-id'];
-		if (!userId) {
-			return res.status(401).json({ message: 'Unauthorized: Missing user ID' });
+		const token = extractBearerToken(req);
+		if (!token) {
+			return sendJsonResponse(res, 401, { message: 'Không có hoặc token không hợp lệ' });
 		}
 
-		const user = await UserRepository.getUserWithActivities(userId);
+		let payload;
+		try {
+			payload = tokenService.verifyAccessToken(token);
+		} catch (err) {
+			return sendJsonResponse(res, 401, { message: 'Token không hợp lệ hoặc đã hết hạn' });
+		}
+
+		const user = await userRepository.getById(payload.id);
 		if (!user) {
-			return res.status(404).json({ message: 'User not found' });
+			return sendJsonResponse(res, 404, { message: 'Không tìm thấy người dùng' });
 		}
 
-		res.status(200).json(user);
+		sendJsonResponse(res, 200, user);
 	} catch (error) {
-		res.status(500).json({ message: 'Internal server error', error: error.message });
+		sendJsonResponse(res, 500, { message: 'Lỗi máy chủ nội bộ', error: error.message });
 	}
-}
+});

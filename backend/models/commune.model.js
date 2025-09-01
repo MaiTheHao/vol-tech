@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const CommuneSchema = new mongoose.Schema(
 	{
-		provinceId: {
+		province: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Province',
 			required: true,
@@ -22,7 +22,8 @@ const CommuneSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-// Compound index for provinceId and code
-CommuneSchema.index({ provinceId: 1, code: 1 }, { unique: true });
+// Compound index for province and code
+CommuneSchema.index({ province: 1, code: 1 }, { unique: true });
 
-export default mongoose.models.Commune || mongoose.model('Commune', CommuneSchema);
+const CommuneModel = mongoose.models.Commune || mongoose.model('Commune', CommuneSchema);
+export default CommuneModel;

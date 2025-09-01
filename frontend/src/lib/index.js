@@ -1,1 +1,1 @@
-export * from './activity-status.js';
+export * from './activity_status.js';

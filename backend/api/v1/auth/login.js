@@ -1,10 +1,11 @@
+import withCors from '../../../lib/cors.js';
 import authService from '../../../services/auth.service.js';
 import { getHttpMethodFlags, sendJsonResponse, parseJson } from '../../../utils/index.js';
 
-export default async function loginHandler(req, res) {
+export default withCors(async function handler(req, res) {
 	const { post } = getHttpMethodFlags(req);
 	if (!post) {
-		return sendJsonResponse(res, 405, { error: 'Method Not Allowed' });
+		return sendJsonResponse(res, 405, { error: 'Phương thức không được phép' });
 	}
 
 	try {
@@ -20,4 +21,4 @@ export default async function loginHandler(req, res) {
 	} catch (err) {
 		return sendJsonResponse(res, 401, { error: err.message });
 	}
-}
+});

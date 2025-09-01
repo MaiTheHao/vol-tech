@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import userRepository from '../repository/user.repository.js';
-import tokenService from './token.service.js'; // Import tokenService
+import tokenService from './token.service.js';
 
 class AuthService {
 	static _instance = null;
@@ -29,7 +29,7 @@ class AuthService {
 	 */
 	async register(userData) {
 		const { password, ...rest } = userData;
-		const existing = await userRepository.getByEmail(rest.email);
+		const existing = await userRepository.getByEmail(rest.email, { lean: true });
 		if (existing) {
 			throw new Error('Email đã được đăng ký');
 		}
@@ -40,7 +40,7 @@ class AuthService {
 			passwordHashed,
 			salt,
 		});
-		const userObj = user.toObject();
+		const userObj = user.toObject ? user.toObject() : user;
 		delete userObj.passwordHashed;
 		delete userObj.salt;
 
@@ -56,7 +56,7 @@ class AuthService {
 	 * @returns {Promise<Object>} đối tượng người dùng nếu thành công (không bao gồm mật khẩu/muối), kèm accessToken
 	 */
 	async login(email, password) {
-		const user = await userRepository.getByEmail(email);
+		const user = await userRepository.getByEmail(email, { lean: false });
 		if (!user) {
 			throw new Error('Email hoặc mật khẩu không đúng');
 		}
@@ -64,7 +64,7 @@ class AuthService {
 		if (hashed !== user.passwordHashed) {
 			throw new Error('Email hoặc mật khẩu không đúng');
 		}
-		const userObj = user.toObject();
+		const userObj = user.toObject ? user.toObject() : user;
 		delete userObj.passwordHashed;
 		delete userObj.salt;
 
