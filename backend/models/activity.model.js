@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import ACTIVITY_STATUS from '../enums/activity-status.enum.js';
 
 const ActivitySchema = new mongoose.Schema(
 	{
@@ -21,16 +22,16 @@ const ActivitySchema = new mongoose.Schema(
 			ref: 'Province',
 			required: true,
 		},
-		communeId: {
+		commune: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Commune',
 			required: true,
 		},
-		// status: 0 - đang mở, 1 - đang diễn ra, 2 - đã kết thúc, 3 - đã đủ người, 4 - bạn đang tham gia, 5 - bạn đã tham gia
+		// status: use ACTIVITY_STATUS enum values
 		status: {
 			type: Number,
-			enum: [0, 1, 2, 3, 4, 5],
-			default: 0,
+			enum: Object.values(ACTIVITY_STATUS),
+			default: ACTIVITY_STATUS.OPEN,
 		},
 		totalScore: {
 			type: Number,

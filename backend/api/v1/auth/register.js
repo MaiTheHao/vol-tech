@@ -2,7 +2,7 @@ import withCors from '../../../lib/cors.js';
 import authService from '../../../services/auth.service.js';
 import { parseJson, getHttpMethodFlags, sendJsonResponse } from '../../../utils/index.js';
 
-export default withCors(async function registerHandler(req, res) {
+export default withCors(async function handler(req, res) {
 	const { post } = getHttpMethodFlags(req);
 	if (!post) {
 		sendJsonResponse(res, 405, { error: 'Phương thức không được phép' });

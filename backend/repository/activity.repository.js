@@ -1,9 +1,23 @@
 import { connectDB } from '../lib/mongoose.js';
 import Activity from '../models/activity.model.js';
+import { Types } from 'mongoose';
+import Province from '../models/province.model.js';
+import Commune from '../models/commune.model.js';
+import ACTIVITY_STATUS from '../enums/activity-status.enum.js';
+import { isNumber, isString, isArray, isObject } from '../utils/index.js';
 
+/**
+ * Lớp Repository cho các thao tác với model Activity
+ * Áp dụng singleton pattern và cung cấp các thao tác CRUD chuẩn hóa
+ */
 class ActivityRepository {
 	static _instance = null;
 
+	/**
+	 * Lấy instance singleton của ActivityRepository
+	 * Get singleton instance of ActivityRepository
+	 * @returns {ActivityRepository} Instance singleton
+	 */
 	static getInstance() {
 		if (!ActivityRepository._instance) {
 			ActivityRepository._instance = new ActivityRepository();
@@ -11,180 +25,220 @@ class ActivityRepository {
 		return ActivityRepository._instance;
 	}
 
+	// ==================== CRUD OPERATIONS ====================
+
+	/**
+	 * Tạo mới một activity
+	 * @async
+	 * @param {Object} activityData - Dữ liệu activity để tạo
+	 * @param {string} activityData.title - Tiêu đề activity
+	 * @param {string} activityData.summary - Tóm tắt activity
+	 * @param {string} activityData.description - Mô tả activity
+	 * @param {string|Types.ObjectId} activityData.provinceId - ID tỉnh
+	 * @param {string|Types.ObjectId} activityData.communeId - ID xã/phường
+	 * @param {number} [activityData.status=0] - Trạng thái activity
+	 * @param {number} activityData.totalScore - Tổng điểm cho activity
+	 * @param {number} activityData.totalPerson - Số người tham gia tối đa
+	 * @param {number} [activityData.curAmountOfPerson=0] - Số người hiện tại
+	 * @param {Date} activityData.startDate - Ngày bắt đầu
+	 * @param {Date} activityData.endDate - Ngày kết thúc
+	 * @returns {Promise<Object>} Activity vừa tạo
+	 * @throws {Error} Nếu validate thất bại hoặc lỗi DB
+	 */
 	async create(activityData) {
 		await connectDB();
 		const activity = new Activity(activityData);
 		return activity.save();
 	}
 
-	async getById(id) {
+	/**
+	 * Tạo nhiều activity cùng lúc
+	 * @async
+	 * @param {Array<Object>} activitiesData - Mảng dữ liệu activity
+	 * @returns {Promise<Array<Object>>} Mảng activity đã tạo
+	 * @throws {Error} Nếu validate thất bại hoặc lỗi DB
+	 */
+	async bulkCreate(activitiesData) {
 		await connectDB();
-		return Activity.findById(id).exec();
+		return Activity.insertMany(activitiesData);
 	}
 
-	async update(id, updateData) {
+	/**
+	 * Tìm activity theo ID
+	 * @async
+	 * @param {string|Types.ObjectId} id - ID activity
+	 * @param {Object} [options={}] - Tuỳ chọn truy vấn
+	 * @param {string|Array} [options.select] - Trường cần lấy
+	 * @param {string|Array} [options.populate] - Trường cần populate
+	 * @param {boolean} [options.lean=false] - Trả về object thuần
+	 * @returns {Promise<Object|null>} Activity hoặc null
+	 */
+	async getById(id, options = {}) {
 		await connectDB();
-		return Activity.findByIdAndUpdate(id, updateData, { new: true }).exec();
+		let query = Activity.findById(id);
+
+		if (options.select) query = query.select(options.select);
+		if (options.populate) {
+			if (isArray(options.populate)) {
+				options.populate.forEach((pop) => (query = query.populate(pop)));
+			} else {
+				query = query.populate(options.populate);
+			}
+		}
+		if (options.lean) query = query.lean();
+
+		return query.exec();
 	}
 
+	/**
+	 * Cập nhật activity theo ID
+	 * @async
+	 * @param {string|Types.ObjectId} id - ID activity
+	 * @param {Object} updateData - Dữ liệu cập nhật
+	 * @param {Object} [options={}] - Tuỳ chọn cập nhật
+	 * @param {boolean} [options.new=true] - Trả về document đã cập nhật
+	 * @param {boolean} [options.runValidators=true] - Chạy validator
+	 * @returns {Promise<Object|null>} Activity đã cập nhật hoặc null
+	 */
+	async update(id, updateData, options = {}) {
+		await connectDB();
+		const updateOptions = {
+			new: options.new !== false,
+			runValidators: options.runValidators !== false,
+			...options,
+		};
+		return Activity.findByIdAndUpdate(id, updateData, updateOptions).exec();
+	}
+
+	/**
+	 * Cập nhật nhiều activity theo filter
+	 * @async
+	 * @param {Object} filter - Điều kiện lọc
+	 * @param {Object} updateData - Dữ liệu cập nhật
+	 * @param {Object} [options={}] - Tuỳ chọn cập nhật
+	 * @returns {Promise<Object>} Kết quả cập nhật
+	 */
+	async bulkUpdate(filter, updateData, options = {}) {
+		await connectDB();
+		return Activity.updateMany(filter, updateData, options).exec();
+	}
+
+	/**
+	 * Xoá activity theo ID
+	 * @async
+	 * @param {string|Types.ObjectId} id - ID activity
+	 * @returns {Promise<Object|null>} Activity đã xoá hoặc null
+	 */
 	async delete(id) {
 		await connectDB();
 		return Activity.findByIdAndDelete(id).exec();
 	}
 
+	/**
+	 * Xoá nhiều activity theo filter
+	 * @async
+	 * @param {Object} filter - Điều kiện lọc
+	 * @returns {Promise<Object>} Kết quả xoá
+	 */
+	async bulkDelete(filter) {
+		await connectDB();
+		return Activity.deleteMany(filter).exec();
+	}
+
+	/**
+	 * Kiểm tra activity tồn tại theo ID
+	 * @async
+	 * @param {string|Types.ObjectId} id - ID activity
+	 * @returns {Promise<boolean>} true nếu tồn tại, ngược lại false
+	 */
+	async exists(id) {
+		await connectDB();
+		const result = await Activity.exists({ _id: id }).exec();
+		return !!result;
+	}
+
+	/**
+	 * Đếm số activity theo filter
+	 * Count activities matching filter
+	 * @async
+	 * @param {Object} [filter={}] - Điều kiện lọc
+	 * @returns {Promise<number>} Số lượng activity
+	 */
+	async count(filter = {}) {
+		await connectDB();
+		return Activity.countDocuments(filter).exec();
+	}
+
+	// ==================== QUERY OPERATIONS ====================
+
+	/**
+	 * Lấy danh sách activity với filter nâng cao, lọc theo trạng thái và các tuỳ chọn
+	 * @async
+	 * @param {Object} [filter={}] - Điều kiện lọc
+	 * @param {Object} [options={}] - Tuỳ chọn truy vấn
+	 * @param {ACTIVITY_STATUS|Array<ACTIVITY_STATUS>} [options.status] - Trạng thái activity hoặc mảng trạng thái
+	 * @param {Object} [options.sort] - Tiêu chí sắp xếp (mặc định: { createdAt: -1 })
+	 * @param {number} [options.limit] - Số lượng mỗi trang
+	 * @param {number} [options.page] - Trang hiện tại
+	 * @param {number} [options.skip] - Số lượng bỏ qua (ưu tiên hơn page nếu có)
+	 * @param {string|Array} [options.select] - Trường cần lấy
+	 * @param {string|Array} [options.populate] - Trường cần populate
+	 * @param {boolean} [options.lean=false] - Trả về object thuần
+	 * @returns {Promise<Array>} Mảng activity
+	 */
 	async getList(filter = {}, options = {}) {
 		await connectDB();
-		return Activity.find(filter, null, options).exec();
-	}
 
-	/**
-	 * Lấy danh sách hoạt động kèm thông tin địa điểm và thống kê người tham gia
-	 * Sử dụng MongoDB aggregation pipeline để:
-	 * - Lọc hoạt động theo điều kiện filter
-	 * - Join với collection provinces để lấy thông tin tỉnh
-	 * - Join với collection communes để lấy thông tin xã/phường
-	 * - Join với collection user_activities để lấy danh sách người tham gia
-	 * - Tính toán thống kê:
-	 *   + Số lượng người tham gia
-	 *   + Trạng thái đầy chỗ (so sánh curAmountOfPerson với totalPerson)
-	 * - Sắp xếp theo thời gian tạo (mặc định mới nhất trước)
-	 * - Hỗ trợ phân trang với limit và skip
-	 *
-	 * @async
-	 * @param {Object} [filter={}] - Điều kiện lọc hoạt động
-	 * @param {Object} [options={}] - Các tùy chọn truy vấn
-	 * @param {Object} [options.sort] - Điều kiện sắp xếp (mặc định: { createdAt: -1 })
-	 * @param {number} [options.limit] - Số lượng bản ghi tối đa trả về
-	 * @param {number} [options.skip] - Số lượng bản ghi bỏ qua (cho phân trang)
-	 * @returns {Promise<Array>} Promise trả về danh sách hoạt động với thông tin địa điểm và thống kê
-	 */
-	async getActivitiesWithLocation(filter = {}, options = {}) {
-		await connectDB();
-		const pipeline = [
-			{ $match: filter },
-			{
-				$lookup: {
-					from: 'provinces',
-					localField: 'provinceId',
-					foreignField: '_id',
-					as: 'province',
-				},
-			},
-			{
-				$lookup: {
-					from: 'communes',
-					localField: 'communeId',
-					foreignField: '_id',
-					as: 'commune',
-				},
-			},
-			{ $unwind: '$province' },
-			{ $unwind: '$commune' },
-			{
-				$lookup: {
-					from: 'user_activities',
-					localField: '_id',
-					foreignField: 'activityId',
-					as: 'participants',
-				},
-			},
-			{
-				$addFields: {
-					participantCount: { $size: '$participants' },
-					isFullyBooked: { $gte: ['$curAmountOfPerson', '$totalPerson'] },
-				},
-			},
-			{ $sort: options.sort || { createdAt: -1 } },
-			...(options.limit ? [{ $limit: options.limit }] : []),
-			...(options.skip ? [{ $skip: options.skip }] : []),
-		];
+		if (options.status !== undefined) {
+			if (isArray(options.status)) {
+				filter.status = { $in: options.status };
+			} else {
+				filter.status = options.status;
+			}
+		}
 
-		return Activity.aggregate(pipeline).exec();
-	}
+		let query = Activity.find(filter);
 
-	/**
-	 * Lấy thông tin chi tiết của một hoạt động kèm danh sách người tham gia
-	 * Sử dụng MongoDB aggregation pipeline để:
-	 * - Tìm hoạt động theo activityId
-	 * - Join với collection provinces để lấy thông tin tỉnh
-	 * - Join với collection communes để lấy thông tin xã/phường
-	 * - Join với collection user_activities để lấy danh sách người tham gia
-	 * - Tính toán thống kê:
-	 *   + Số lượng người tham gia hiện tại
-	 *   + Số chỗ còn lại (totalPerson - curAmountOfPerson)
-	 *
-	 * @async
-	 * @param {string} activityId - ID của hoạt động
-	 * @returns {Promise<Object|null>} Promise trả về thông tin hoạt động với địa điểm và thống kê người tham gia, hoặc null nếu không tìm thấy
-	 */
-	async getActivityWithParticipants(activityId) {
-		await connectDB();
-		const pipeline = [
-			{ $match: { _id: activityId } },
-			{
-				$lookup: {
-					from: 'provinces',
-					localField: 'provinceId',
-					foreignField: '_id',
-					as: 'province',
-				},
-			},
-			{
-				$lookup: {
-					from: 'communes',
-					localField: 'communeId',
-					foreignField: '_id',
-					as: 'commune',
-				},
-			},
-			{
-				$lookup: {
-					from: 'user_activities',
-					localField: '_id',
-					foreignField: 'activityId',
-					as: 'userActivities',
-				},
-			},
-			{ $unwind: { path: '$province', preserveNullAndEmptyArrays: true } },
-			{ $unwind: { path: '$commune', preserveNullAndEmptyArrays: true } },
-			{
-				$addFields: {
-					participantCount: { $size: '$userActivities' },
-					availableSlots: { $subtract: ['$totalPerson', '$curAmountOfPerson'] },
-				},
-			},
-		];
+		if (options.select) query = query.select(options.select);
+		if (options.populate) {
+			if (isArray(options.populate)) {
+				options.populate.forEach((pop) => (query = query.populate(pop)));
+			} else {
+				query = query.populate(options.populate);
+			}
+		}
 
-		const result = await Activity.aggregate(pipeline).exec();
-		return result[0] || null;
-	}
+		if (options.sort) query = query.sort(options.sort);
 
-	/**
-	 * Lấy danh sách hoạt động theo tỉnh
-	 * Sử dụng getActivitiesWithLocation() với filter theo provinceId
-	 *
-	 * @async
-	 * @param {string} provinceId - ID của tỉnh
-	 * @param {Object} [options={}] - Các tùy chọn truy vấn
-	 * @returns {Promise<Array>} Promise trả về danh sách hoạt động trong tỉnh
-	 */
-	async getActivitiesByProvince(provinceId, options = {}) {
-		await connectDB();
-		return this.getActivitiesWithLocation({ provinceId }, options);
-	}
+		let page = 1,
+			limit = 10;
+		if (isNumber(options.page) || (isString(options.page) && !isNaN(options.page))) {
+			page = parseInt(options.page);
+		}
+		if (isNumber(options.limit) || (isString(options.limit) && !isNaN(options.limit))) {
+			limit = parseInt(options.limit);
+		}
 
-	/**
-	 * Lấy danh sách hoạt động theo xã/phường
-	 * Sử dụng getActivitiesWithLocation() với filter theo communeId
-	 *
-	 * @async
-	 * @param {string} communeId - ID của xã/phường
-	 * @param {Object} [options={}] - Các tùy chọn truy vấn
-	 * @returns {Promise<Array>} Promise trả về danh sách hoạt động trong xã/phường
-	 */
-	async getActivitiesByCommune(communeId, options = {}) {
-		await connectDB();
-		return this.getActivitiesWithLocation({ communeId }, options);
+		if (options.skip != null && (isNumber(options.skip) || (isString(options.skip) && !isNaN(options.skip)))) {
+			query = query.skip(parseInt(options.skip));
+		} else {
+			query = query.skip((page - 1) * limit);
+		}
+		query = query.limit(limit);
+
+		if (options.lean) query = query.lean();
+
+		const data = await query.exec();
+		const mappedData = data.map((doc) => {
+			const obj = doc.toObject ? doc.toObject() : doc;
+			const { communeId, provinceId, status, ...rest } = obj;
+			return {
+				...rest,
+				commune: communeId,
+				province: provinceId,
+			};
+		});
+		return mappedData;
 	}
 }
 
