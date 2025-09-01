@@ -1,0 +1,37 @@
+[
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439011" },
+		"code": "HN",
+		"name": "Hà Nội",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439012" },
+		"code": "HCM",
+		"name": "TP Hồ Chí Minh",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439013" },
+		"code": "DN",
+		"name": "Đà Nẵng",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439014" },
+		"code": "HP",
+		"name": "Hải Phòng",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439015" },
+		"code": "CT",
+		"name": "Cần Thơ",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	}
+]

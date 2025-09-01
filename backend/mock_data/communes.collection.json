@@ -1,0 +1,122 @@
+[
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439021" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439011" },
+		"code": "HK",
+		"name": "Phường Hoàn Kiếm",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439022" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439011" },
+		"code": "CG",
+		"name": "Phường Cầu Giấy",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439023" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439011" },
+		"code": "MD",
+		"name": "Xã Mỹ Đình",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439024" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439012" },
+		"code": "BN",
+		"name": "Phường Bến Nghé",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439025" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439012" },
+		"code": "Q1",
+		"name": "Phường Nguyễn Thái Bình",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439026" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439012" },
+		"code": "TD",
+		"name": "Phường Thủ Đức",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439027" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439013" },
+		"code": "HK",
+		"name": "Phường Hải Châu",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439028" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439013" },
+		"code": "ST",
+		"name": "Phường Sơn Trà",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439029" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439013" },
+		"code": "NG",
+		"name": "Phường Ngũ Hành Sơn",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439030" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439014" },
+		"code": "HY",
+		"name": "Phường Hồng Bàng",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439031" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439014" },
+		"code": "LN",
+		"name": "Phường Lê Chân",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439032" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439014" },
+		"code": "NE",
+		"name": "Phường Ngô Quyền",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439033" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439015" },
+		"code": "NK",
+		"name": "Phường Ninh Kiều",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439034" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439015" },
+		"code": "BT",
+		"name": "Phường Bình Thủy",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	},
+	{
+		"_id": { "$oid": "507f1f77bcf86cd799439035" },
+		"provinceId": { "$oid": "507f1f77bcf86cd799439015" },
+		"code": "CL",
+		"name": "Phường Cái Răng",
+		"createdAt": "2023-01-15T08:00:00.000Z",
+		"updatedAt": "2023-01-15T08:00:00.000Z"
+	}
+]
