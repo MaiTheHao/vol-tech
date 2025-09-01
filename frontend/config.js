@@ -1,6 +1,6 @@
 const APP_CONFIG = {
 	api: {
-		baseURL: 'http://192.168.20.128',
+		baseURL: 'http://localhost',
 		port: '3000',
 		prefix: '/api',
 		ver: '/v1',
