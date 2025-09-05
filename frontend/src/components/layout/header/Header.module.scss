@@ -1,0 +1,243 @@
+@use '../../../app/var' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: $app-background;
+  border-bottom: 1px solid $neutral-light;
+  box-shadow: 0 1px 2px rgba(78, 68, 68, 0.05);
+}
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-inline: 1rem;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+}
+
+/* Logo */
+.Logo {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 1em;
+}
+
+/* Nav */
+.nav {
+  display: none;
+
+  @media (min-width: 768px) {
+    display: flex;
+    gap: 2rem;
+  }
+}
+
+.navLink {
+  color: $txt-black;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+/* User */
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Wrapper user info và avatar */
+.userInfoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Text (tên + điểm) */
+.userText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; // căn trái trong block
+}
+
+/* Tên user */
+.username {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $txt-primary-black;
+}
+
+/* Điểm user */
+.points {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; // căn phải
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: $color-accent;
+}
+
+.crown {
+  width: 1rem;
+  height: 1rem;
+  color: $color-accent;
+}
+
+.pointValue {
+  font-weight: 600;
+}
+
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: $font-family;
+}
+
+.userInfoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.userText {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: center;
+  gap: 0.25rem;
+
+  .points {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem; // tương đương text-sm
+    font-weight: $font-weight-semibold;
+    color: $txt-accent;
+
+    .crown {
+      width: 1rem;
+      height: 1rem;
+      color: $color-accent;
+    }
+
+    .pointValue {
+      font-weight: $font-weight-semibold;
+      color: $txt-accent;
+    }
+  }
+}
+
+.profileLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  .avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: $border-radius-base;
+    overflow: hidden;
+
+    .userIcon {
+      width: 1rem;
+      height: 1rem;
+      color: $txt-secondary;
+    }
+  }
+
+  .username {
+    font-size: 0.875rem;
+    font-weight: $font-weight-medium;
+    color: $txt-primary;
+  }
+}
+
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  button {
+    font-size: 0.875rem; // text-sm
+  }
+}
+
+.minimalNav {
+  position: absolute; // hoặc fixed nếu muốn menu bám màn hình
+  top: 4rem; // đúng bằng chiều cao header (64px trong .wrapper)
+  left: 0;
+  width: 100%;
+  background: $app-background;
+  z-index: 1000; // cao hơn HeroSection
+  display: block;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.menuToggle {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.375em;
+  width: 2rem;   // cho nút có diện tích
+  height: 2rem;
+  padding: 0.25rem;
+  background: transparent; // tránh che mất background header
+  border: none; // bỏ viền mặc định
+  z-index: 2000; // đảm bảo nổi lên trên header
+  @media (min-width: 768px) {
+    display: none;
+  }
+	span {
+    width: 100%;
+    height: 2px; // thay vì 0.1em cho dễ thấy
+    background-color: $color-tertiary;
+    transition: background-color 0.3s, transform 0.25s, opacity 0.25s;
+  }
+
+	&.active {
+		span:nth-child(1) {
+			transform: rotate(45deg);
+			translate: 0 0.475em;
+		}
+		span:nth-child(2) {
+			opacity: 0;
+			translate: 100%;
+		}
+		span:nth-child(3) {
+			transform: rotate(-45deg);
+			translate: 0 -0.475em;
+		}
+	}
+	&:hover span {
+		background-color: $color-accent;
+	}
+}
+
+@media (max-width: $app-tablet) {
+	.Logo {
+		gap: 0.5em;
+	}
+	.menuToggle {
+		display: flex;
+		flex-direction: column;
+	}
+
+}
+

@@ -1,0 +1,86 @@
+@use '../../../app/_var.scss' as *;
+
+
+.footer {
+  background: $app-background;
+  border-top: 1px solid $border-gray;
+  margin-top: auto;
+}
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+
+  @media (min-width: $app-tablet) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.logoSection {
+  grid-column: span 1;
+
+  @media (min-width: $app-tablet) {
+    grid-column: span 2;
+  }
+}
+
+.logo {
+  width: 115px;
+  height: 39px;
+  background: $color-primary;
+  border-radius: $border-radius-lg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.logoText {
+  color: $txt-while;
+  font-weight: $font-weight-bold;
+  font-size: 1.125rem;
+}
+
+.description {
+  color: $txt-light;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.heading {
+  font-weight: $font-weight-semibold;
+  color: $txt-black;
+  margin-bottom: 1rem;
+}
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.link {
+  color: $txt-light;
+  transition: color 0.2s;
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+.bottom {
+  border-top: 1px solid $border-gray;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: $txt-light;
+}

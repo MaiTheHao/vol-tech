@@ -1,0 +1,139 @@
+@use "../../app/var" as *; 
+// tuỳ đường dẫn tới file biến của bạn
+
+/* Card */
+.card {
+  border: none;
+  box-shadow: 0 2px 8px rgba($neutral-dark, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba($neutral-dark, 0.12);
+  }
+}
+
+.cardImageWrapper {
+  position: relative;
+}
+
+.cardImage {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+}
+
+.badgeLeft {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.badgeRight {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+}
+
+.pointsBadge {
+  background: $color-accent;
+  color: $txt-while;
+}
+
+.cardContent {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: $font-weight-semibold;
+  color: $txt-primary-black;
+  line-clamp: 2;
+}
+
+.cardSummary {
+  font-size: 0.875rem;
+  color: $txt-tertiary;
+}
+
+.filtersWrapper {
+  background: $color-while;
+  border: 1px solid $border-lightgray;
+  border-radius: $border-radius-xl;
+  padding-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filtersHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.clearBtn {
+  color: $txt-tertiary;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.25rem;
+}
+
+.filtersGrid {
+  display: grid;
+  gap: 1rem;
+
+  @media (min-width: $app-tablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Status */
+.statusList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.statusBadge {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.statusInactive {
+  &:hover {
+    background: $res-light-gray;
+  }
+}
+
+.statusOpen { background-color: $notice-success; color: $txt-while; }
+.statusFull { background-color: $notice-warning; color: $txt-black; }
+.statusInProgress { background-color: $color-blue; color: $txt-while; }
+.statusClosed { background-color: $neutral-medium; color: $txt-while; }
+.statusRegistered { background-color: $color-accent; color: $txt-while; }
+.statusParticipated { background-color: $color-secondary; color: $txt-while; }
+
+/* Active filters */
+.activeFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid $border-lightgray;
+}
+
+.closeIcon {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-left: 0.25rem;
+  cursor: pointer;
+}
+

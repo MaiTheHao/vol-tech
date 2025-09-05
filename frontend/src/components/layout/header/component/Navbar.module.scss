@@ -1,0 +1,101 @@
+@use '../../../../app/var' as *;
+@use '../../../../app/resest.scss' as *;
+@use 'sass:color';
+
+
+.logoLink {
+  display: flex;
+}
+
+.Container {
+
+  gap: clamp(0.6rem, 1.5vw, 2rem);
+  display: none;
+  flex-direction: row;
+  border: $color-while; // màu trắng (white)
+}
+
+.navItem {
+  color: $txt-light;
+  font-family: $font-family;
+  max-width: 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  position: relative;
+  font-size: clamp(1rem, 1vw, 1.6rem);
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -.25em;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: $txt-while;
+    transition: width .2s ease;
+  }
+
+  &:hover {
+    color: $txt-while;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+
+  &.active {
+    color: $txt-while;
+    &::after {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbarContainer {
+    padding: 0rem 0.4rem;
+  }
+  .Container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    border-bottom: 1px solid $color-accent-while; // sửa lại đúng biến
+    border-top: 1px solid $color-accent-while;   // sửa lại đúng biến
+    padding: 0.5rem 0rem;
+    margin: 0.5rem 0;
+    gap: 0rem;
+  }
+
+  .Block {
+    width: 100%;
+
+    .navItem {
+      color: $txt-while;
+      font-size: 1rem;
+      font-family: $font-family;
+      display: block;
+      padding: 0.4rem 0rem;
+      transition: color 0.3s ease;
+      width: 100%;
+      text-decoration: none;
+
+      &:hover::after {
+        width: 0%;
+      }
+
+      &:hover {
+        color: $txt-accent;
+      }
+
+      &.active {
+        color: $txt-while;
+        &::after {
+          width: 0%;
+        }
+        &:hover {
+          color: $txt-accent;
+        }
+      }
+    }
+  }
+}

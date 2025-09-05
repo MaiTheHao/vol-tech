@@ -1,0 +1,83 @@
+.card {
+  border: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.cardContent {
+  padding: 2rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.avatar {
+  width: 6rem;
+  height: 6rem;
+
+  @media (min-width: 768px) {
+    width: 8rem;
+    height: 8rem;
+  }
+}
+
+.avatarFallback {
+  font-size: 2rem;
+}
+
+.userInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.userName {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--foreground);
+}
+
+.joinBadge {
+  font-size: 0.875rem;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  font-size: 0.875rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--muted-foreground);
+}
+
+.label {
+  color: var(--muted-foreground);
+}
+
+.value {
+  font-weight: 500;
+  color: var(--foreground);
+}
