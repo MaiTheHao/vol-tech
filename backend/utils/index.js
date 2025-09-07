@@ -152,3 +152,15 @@ export function sendJsonResponse(res, statusCode, data) {
 	res.setHeader('Content-Type', 'application/json');
 	res.end(JSON.stringify(data));
 }
+
+/**
+ * Gửi response lỗi về client dưới dạng JSON, cho phép custom thêm dữ liệu.
+ * @param {import('http').ServerResponse} res - Đối tượng response.
+ * @param {number} statusCode - Mã trạng thái HTTP lỗi.
+ * @param {string|Object} message - Thông báo lỗi hoặc object lỗi.
+ * @param {Object} [rest] - Dữ liệu bổ sung tuỳ chọn.
+ */
+export function sendErrorResponse(res, statusCode, message, rest = {}) {
+	const errorObj = typeof message === 'string' ? { error: message, ...rest } : { ...message, ...rest };
+	sendJsonResponse(res, statusCode, errorObj);
+}

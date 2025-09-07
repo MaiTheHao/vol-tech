@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import userRepository from '../repository/user.repository.js';
 import tokenService from './token.service.js';
+import { isObject, mongooseToObject } from '../utils/index.js';
 
 class AuthService {
 	static _instance = null;
@@ -40,7 +41,7 @@ class AuthService {
 			passwordHashed,
 			salt,
 		});
-		const userObj = user.toObject ? user.toObject() : user;
+		const userObj = mongooseToObject(user);
 		delete userObj.passwordHashed;
 		delete userObj.salt;
 
@@ -64,7 +65,7 @@ class AuthService {
 		if (hashed !== user.passwordHashed) {
 			throw new Error('Email hoặc mật khẩu không đúng');
 		}
-		const userObj = user.toObject ? user.toObject() : user;
+		const userObj = mongooseToObject(user);
 		delete userObj.passwordHashed;
 		delete userObj.salt;
 

@@ -1,27 +1,24 @@
 import withCors from '../../../lib/cors.js';
 import authService from '../../../services/auth.service.js';
-import { parseJson, getHttpMethodFlags, sendJsonResponse } from '../../../utils/index.js';
+import { parseJson, getHttpMethodFlags, sendJsonResponse, sendErrorResponse } from '../../../utils/index.js';
 
 export default withCors(async function handler(req, res) {
 	const { post } = getHttpMethodFlags(req);
-	if (!post) {
-		sendJsonResponse(res, 405, { error: 'Phương thức không được phép' });
-		return;
-	}
+	if (!post) return sendErrorResponse(res, 405, 'Phương thức không được phép');
 
 	try {
 		const body = await parseJson(req);
 		const { name, email, password, birthDate, unit, phone } = body;
 
 		if (!name || !email || !password) {
-			sendJsonResponse(res, 400, { error: 'Thiếu trường bắt buộc' });
+			sendErrorResponse(res, 400, 'Thiếu trường bắt buộc');
 			return;
 		}
 
-		const user = await authService.register({ name, email, password, birthDate, unit, phone });
+		await authService.register({ name, email, password, birthDate, unit, phone });
 
-		sendJsonResponse(res, 201, user);
+		return sendJsonResponse(res, 201, { message: 'Đăng ký thành công' });
 	} catch (err) {
-		sendJsonResponse(res, 400, { error: err.message });
+		return sendErrorResponse(res, 500, 'Lỗi máy chủ nội bộ', { error: err.message });
 	}
 });
