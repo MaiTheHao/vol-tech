@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
-@import './styles/vars.css';
-@import './styles/globals.css';
-@import './styles/animations.css';
+@import './styles/vars.scss';
+@import './styles/globals.scss';
+@import './styles/animations.scss';
 
 * {
+	border: none;
+	outline: none;
 	margin: 0;
 	padding: 0;
 	color: inherit;
