@@ -135,7 +135,7 @@
   }
 }
 
-/* Ẩn khi màn hình >= tablet */
+
 @media screen and (min-width: $app-tablet) {
   .menuToggle {
     display: none;
@@ -145,7 +145,7 @@
 /* ===============================
    Responsive
 ================================= */
-@media (max-width: $app-tablet) {
+@media screen and (max-width: $app-tablet) {
   .headerRight {
     gap: 0.4em;
   }
@@ -226,7 +226,7 @@
   }
 }
 
-/* Mobile styles */
+
 @media (max-width: $app-tablet) {
   .navbar {
     margin-top: 1em;
@@ -275,4 +275,6 @@
   }
 }
 
-//Profile***********
+/* ===============================
+  Profile
+================================= */

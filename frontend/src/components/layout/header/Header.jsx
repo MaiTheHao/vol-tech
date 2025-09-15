@@ -27,7 +27,7 @@ export  default function  Header({ isLoggedIn = false, user }) {
   return (
     <header className={styles.Header}>
       <div className={`Container ${styles.Container}`}>
-        {/* Left side: Logo + Desktop Nav */}
+
         <div className={styles.headerLeft}>
           <LogoLink
             LogoSrc={LogoBlue}
@@ -39,7 +39,7 @@ export  default function  Header({ isLoggedIn = false, user }) {
           <Navbar />
         </div>
 
-        {/* Right side: User section + Menu toggle */}
+
         <div className={styles.headerRight}>
           {isLoggedIn && user ? (
             <div className={styles.profileButton}>
@@ -66,7 +66,7 @@ export  default function  Header({ isLoggedIn = false, user }) {
             </div>
           )}
 
-          {/* Hamburger Menu */}
+
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -81,7 +81,7 @@ export  default function  Header({ isLoggedIn = false, user }) {
           </button>
         </div>
       </div>
-      {/* Mobile Nav */}
+
       {menuOpen && (
         <div className={styles.minimalNav}>
           <Navbar/>

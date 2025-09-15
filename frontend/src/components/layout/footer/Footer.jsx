@@ -15,7 +15,6 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.grid}>
-          {/* Logo and description */}
           <div className={styles.logoSection}>
             <div className={styles.logo}>
               <LogoLink
@@ -30,7 +29,6 @@ export default function Footer() {
             </p>
           </div>
           <div className={styles.Section}>
-            {/* Quick links */}
             <div className={styles.linksSection}>
               <h3 className={styles.linksTitle}>Liên kết nhanh</h3>
               <ul className={styles.linkList}>
@@ -38,7 +36,7 @@ export default function Footer() {
                   <Link to="/activities" className={styles.link}>Hoạt động thiện nguyện</Link>
                 </li>
                 <li>
-                  <Link to="/about" className={styles.link}>Giới thiệu</Link>
+              
                 </li>
                 <li>
                   <Link to="/contact" className={styles.link}>Liên hệ</Link>
@@ -46,7 +44,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Support */}
+
             <div className={styles.linksSection}>
               <h3 className={styles.linksTitle}>Hỗ trợ</h3>
               <ul className={styles.linkList}>
@@ -54,7 +52,7 @@ export default function Footer() {
                   <Link to="/help" className={styles.link}>Trợ giúp</Link>
                 </li>
                 <li>
-                  <Link to="/privacy" className={styles.link}>Chính sách bảo mật</Link>
+                
                 </li>
                 <li>
                   <Link to="/terms" className={styles.link}>Điều khoản sử dụng</Link>

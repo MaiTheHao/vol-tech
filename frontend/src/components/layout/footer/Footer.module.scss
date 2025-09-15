@@ -21,21 +21,35 @@
   @media (min-width: $app-tablet) {
     gap: 1.125em;
   }
+  @media screen and (max-width: $app-tablet) {
+    flex-direction:column
+  }
 }
 
 .Section{
     display: flex;
     gap: 2em;
+    @media screen and (max-width: $app-tablet) {
+      flex-direction:column
+  }
 }
 
 .logoSection {
-    max-width: 40%;
-    width: max-content;
+  max-width: 40%;
+  width: max-content;
   grid-column: span 1;
 
   @media (min-width: $app-tablet) {
     grid-column: span 2;
   }
+}
+
+@media (max-width: $app-tablet) {
+  .logoSection{
+    max-width: 100%;
+
+  }
+
 }
 
 .logo {
@@ -55,10 +69,12 @@
 }
 
 .description {
+  max-width: $app-tablet;
   color: var(--txt-primary);
   opacity: 0.85;
   font-size: 0.875em;
   line-height: 1.25em;
+
 }
 
 .linksTitle {
