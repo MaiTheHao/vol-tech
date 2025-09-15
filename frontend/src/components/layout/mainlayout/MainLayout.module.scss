@@ -8,12 +8,15 @@
   flex: 1; 
 }
 
-/* Header */
 .headerWrapper {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 50;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: var(--app-background);
 }
+
 
 /* Footer */
 .footerWrapper {
