@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import styles from './Input.module.scss';
 
-function Input({ name = 'Name', label = 'Label', type = 'text', placeholder = 'Placeholder', value, onChange, error = 'FUCK YOUR ERROR MESSAGE', ...rest }) {
+function Input({ name = 'Name', label = 'Label', type = 'text', placeholder = 'Placeholder', value, onChange, error = null, ...rest }) {
 	const id = useMemo(() => `${label}-${placeholder}-${name}`, [label, placeholder, name]);
 
 	return (
@@ -13,8 +13,12 @@ function Input({ name = 'Name', label = 'Label', type = 'text', placeholder = 'P
 				<input type={type} placeholder={placeholder} id={id} value={value} onChange={onChange} {...rest} />
 			</label>
 			<span className={styles.error}>{error}</span>
-		</div>
+		</div>	
 	);
 }
 
 export default Input;
+ 
+//****** */
+
+

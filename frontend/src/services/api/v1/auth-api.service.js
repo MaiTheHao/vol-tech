@@ -4,12 +4,9 @@ import { httpPost } from '../http-client.js';
 export const login = (email, password) =>
 	withApiCache(`/auth/login:${email}`, httpPost, '/auth/login', { email, password });
 
-export const register = ({ name, email, password, birthDate, unit, phone }) =>
-	withApiCache(`/auth/register:${email}`, httpPost, '/auth/register', {
-		name,
-		email,
-		password,
-		birthDate,
-		unit,
-		phone,
-	});
+export const register = ({ name, email, password }) =>
+  withApiCache(`/auth/register:${email}`, httpPost, '/auth/register', { name, email, password, });
+    
+    
+    
+  

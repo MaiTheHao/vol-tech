@@ -9,7 +9,7 @@
 	display: block;
 	margin-bottom: 0.5em;
 	font-weight: var(--font-semibold);
-	font-size: 1em;
+	font-size: 0.875em;
 	color: var(--txt-secondary);
 }
 
@@ -24,14 +24,15 @@
 	font-size: 1em;
 	background-color: white;
 	border: 1px solid var(--border-gray);
-	padding: 0.5em 0.75em;
 	border-radius: var(--border-radius-base);
 	box-shadow: 0 0 0 0 var(--color-primary);
 	transition: border-color 0.3s ease, box-shadow 0.3s ease;
-
+	overflow: hidden;
+	
 	& > input {
 		width: 100%;
 		background-color: transparent;
+		padding: 0.5em 0.75em;
 
 		&::placeholder {
 			color: var(--neutral-medium);

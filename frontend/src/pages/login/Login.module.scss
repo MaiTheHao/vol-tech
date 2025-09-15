@@ -10,7 +10,7 @@
 
 .container {
 	width: 100%;
-	max-width: 400px;
+	max-width: 500px;
 	padding: 2rem;
 	display: flex;
 	justify-content: center;
@@ -27,6 +27,12 @@
 	align-items: center;
 }
 
+.title{
+	font-size: 2em;
+	font-weight: var(--font-bold);
+	margin-bottom: 0.25em;
+}
+
 .form {
 	width: 100%;
 	display: flex;
@@ -41,6 +47,7 @@
 	button {
 		width: 100%;
 		padding: 0.75rem 1rem;
+		margin-top: 0.25em;
 		border: none;
 		border-radius: var(--border-radius-base);
 		background-color: var(--color-primary);

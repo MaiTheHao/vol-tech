@@ -27,6 +27,7 @@
 	--color-tertiary: #eee1d8;
 	--color-light: #c8c8c8;
 	--color-blue: #1c6dd0;
+	--color-primary-while: #3a6173;
 	--color-primary: #1b3c53;
 
 	/* Neutral Colors */
@@ -55,11 +56,12 @@
 	/* App Background */
 	--background-color: #1b3c53;
 	--app-background: #fcfaf7;
-
-	/* Screen Sizes */
-	--max-screen-width: 1400px;
-	--app-mobile: 480px;
-	--app-tablet: 768px;
-	--app-desktop: 1024px;
-	--app-large: 1200px;
 }
+
+	$max-screen-width: 1400px;
+	$app-mobile: 480px;
+	$app-tablet: 768px;
+	$app-desktop: 1024px;
+	$app-large: 1200px;
+
+

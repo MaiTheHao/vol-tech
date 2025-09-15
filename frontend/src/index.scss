@@ -1,7 +1,7 @@
+@use './styles/vars.scss' as *;
+@use './styles/globals.scss' as *;
+@use './styles/animations.scss' as *;
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
-@import './styles/vars.scss';
-@import './styles/globals.scss';
-@import './styles/animations.scss';
 
 * {
 	border: none;
@@ -12,6 +12,9 @@
 	font-size: 1em;
 	font-family: inherit;
 	box-sizing: border-box;
+	text-decoration: none;
+	color: inherit;
+
 }
 
 html,
