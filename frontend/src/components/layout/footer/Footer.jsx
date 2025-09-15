@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from "./footer.module.scss";
 import LogoBlue from "../../../assets/logos/Logo-VOLTECH--Blue.svg"
-import { LogoLink } from '../header/component/Navbar';
+import { LogoLink } from '../header/components/Navbar';
 
 export default function Footer() {
 

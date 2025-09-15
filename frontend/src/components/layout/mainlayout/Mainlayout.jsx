@@ -1,5 +1,6 @@
+
 import Header from "../header/Header";
-import Footer from "../footer/footer";
+import Footer from "../footer/Footer";
 import PropTypes from "prop-types";
 import styles from "./MainLayout.module.scss";
 
@@ -16,6 +17,7 @@ export default function MainLayout({ children, isLoggedIn, user }) {
     </div>
   );
 }
+
 
 MainLayout.propTypes = {
   children: PropTypes.node.isRequired,

@@ -4,7 +4,7 @@ import MainLayout from './components/layout/mainlayout/Mainlayout';
 import  Header  from './components/layout/header/Header';
 import Login from './pages/login/Login';
 import Register from './pages/register/register';
-import HomePage from './components/pages';
+import HomePage from './pages/pages';
 
 const App = () => {
 	return (

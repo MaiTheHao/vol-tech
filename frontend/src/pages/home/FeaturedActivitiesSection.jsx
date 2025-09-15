@@ -1,5 +1,5 @@
-import { Card, CardContent } from "../ui/Card"
-import { Badge } from "..//ui/Badge"
+import { Card, CardContent } from "../../components/ui/Card"
+import { Badge } from "../../components/ui/Badge"
 import { Calendar, MapPin, Users } from "lucide-react"
 import { Link } from "react-router-dom"
 import styles from "./FeaturedActivitiesSection.module.scss"
