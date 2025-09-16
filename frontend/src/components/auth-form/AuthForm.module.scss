@@ -51,6 +51,10 @@
 	font-size: 0.85em;
 	text-align: center;
 	margin-top: 0.5rem;
+	padding: 0.5rem;
+	background-color: rgba(255, 0, 0, 0.05);
+	border-radius: var(--border-radius-base);
+	width: 100%;
 }
 
 @media (max-width: 768px) {

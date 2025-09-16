@@ -35,15 +35,55 @@ export default function Register() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const { name, email, birthDate, unit, phone, password, confirmPassword } = values;
-		if (!name.trim() || !email.trim() || !birthDate.trim() || !unit.trim() || !phone.trim() || !password.trim()) {
-			setError('Vui lòng điền đầy đủ thông tin');
+
+		// Create an errors object for field-specific validation
+		const fieldErrors = {};
+		let hasErrors = false;
+
+		if (!name.trim()) {
+			fieldErrors.name = 'Vui lòng nhập tên người dùng';
+			hasErrors = true;
+		}
+
+		if (!email.trim()) {
+			fieldErrors.email = 'Vui lòng nhập email';
+			hasErrors = true;
+		}
+
+		if (!birthDate.trim()) {
+			fieldErrors.birthDate = 'Vui lòng chọn ngày sinh';
+			hasErrors = true;
+		}
+
+		if (!unit.trim()) {
+			fieldErrors.unit = 'Vui lòng nhập đơn vị';
+			hasErrors = true;
+		}
+
+		if (!phone.trim()) {
+			fieldErrors.phone = 'Vui lòng nhập số điện thoại';
+			hasErrors = true;
+		}
+
+		if (!password.trim()) {
+			fieldErrors.password = 'Vui lòng nhập mật khẩu';
+			hasErrors = true;
+		}
+
+		if (!confirmPassword.trim()) {
+			fieldErrors.confirmPassword = 'Vui lòng xác nhận mật khẩu';
+			hasErrors = true;
+		} else if (password !== confirmPassword) {
+			fieldErrors.confirmPassword = 'Mật khẩu không khớp';
+			hasErrors = true;
+		}
+
+		if (hasErrors) {
+			setError(fieldErrors);
 			return;
 		}
-		if (password !== confirmPassword) {
-			setError('Mật khẩu không khớp');
-			return;
-		}
-		setError('');
+
+		setError(null);
 		const res = await register({ name, email, password, birthDate, unit, phone });
 		if (res?.message) {
 			navigate('/login');

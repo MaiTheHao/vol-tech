@@ -21,16 +21,32 @@ export default function Login() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (!values.email.trim() || !values.password.trim()) {
-			setError('Vui lòng điền đầy đủ thông tin email và mật khẩu');
+
+		const fieldErrors = {};
+		let hasErrors = false;
+
+		if (!values.email.trim()) {
+			fieldErrors.email = 'Vui lòng nhập email';
+			hasErrors = true;
+		}
+
+		if (!values.password.trim()) {
+			fieldErrors.password = 'Vui lòng nhập mật khẩu';
+			hasErrors = true;
+		}
+
+		if (hasErrors) {
+			setError(fieldErrors);
 			return;
 		}
+
 		setError(null);
 		const success = await login(values.email, values.password);
-		if (success) {
-			navigate('/');
-		} else {
+
+		if (!success) {
 			setError('Email hoặc mật khẩu không đúng');
+		} else {
+			navigate('/');
 		}
 	};
 
