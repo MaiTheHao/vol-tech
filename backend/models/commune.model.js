@@ -18,12 +18,16 @@ const CommuneSchema = new mongoose.Schema(
 			required: true,
 			trim: true,
 		},
+		deletedAt: {
+			type: Date,
+			default: null,
+		},
 	},
 	{ timestamps: true }
 );
 
-// Compound index for province and code
 CommuneSchema.index({ province: 1, code: 1 }, { unique: true });
+CommuneSchema.index({ province: 1, _id: 1 }, { unique: true });
 
 const CommuneModel = mongoose.models.Commune || mongoose.model('Commune', CommuneSchema);
 export default CommuneModel;

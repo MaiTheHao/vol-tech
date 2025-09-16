@@ -41,6 +41,18 @@ const UserSchema = new mongoose.Schema(
 			default: 0,
 			min: 0,
 		},
+		avatar: {
+			type: String,
+			trim: true,
+		},
+		role: {
+			type: [String],
+			default: ['user'],
+		},
+		deletedAt: {
+			type: Date,
+			default: null,
+		},
 	},
 	{ timestamps: true }
 );
