@@ -1,7 +1,8 @@
 import crypto from 'crypto';
-import userRepository from '../repository/user.repository.js';
+import userService from './user.service.js';
 import tokenService from './token.service.js';
-import { isObject, mongooseToObject } from '../utils/index.js';
+import { isEmpty } from '../utils/index.js';
+import { ErrorResult, RepositoryError } from '../error/index.js';
 
 class AuthService {
 	static _instance = null;
@@ -13,65 +14,94 @@ class AuthService {
 		return AuthService._instance;
 	}
 
-	/**
-	 * Băm mật khẩu với muối bằng sha256
-	 * @param {string} password - Mật khẩu người dùng
-	 * @param {Buffer} salt - Muối (salt) dùng để băm
-	 * @returns {string} mật khẩu đã băm (dạng hex)
-	 */
-	hashPassword(password, salt) {
+	_hashPassword(password, salt) {
+		if (salt && typeof salt === 'object' && salt._bsontype === 'Binary' && salt.buffer) {
+			salt = Buffer.from(salt.buffer);
+		}
 		return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha256').toString('hex');
 	}
 
-	/**
-	 * Đăng ký người dùng mới
-	 * @param {Object} userData - { name, email, password, birthDate, unit, phone }
-	 * @returns {Promise<Object>} người dùng đã tạo (không bao gồm mật khẩu/muối), kèm accessToken
-	 */
 	async register(userData) {
-		const { password, ...rest } = userData;
-		const existing = await userRepository.getByEmail(rest.email, { lean: true });
-		if (existing) {
-			throw new Error('Email đã được đăng ký');
+		try {
+			if (isEmpty(userData)) return [ErrorResult(400, 'Thiếu dữ liệu người dùng')];
+
+			const { password, ...rest } = userData;
+			if (!password) return [ErrorResult(400, 'Mật khẩu là bắt buộc')];
+
+			const [errExists, exists] = await userService.exists({ email: userData.email });
+			if (errExists) return [errExists];
+			if (exists) return [ErrorResult(409, 'Email đã được sử dụng')];
+
+			let salt, passwordHashed;
+			try {
+				salt = crypto.randomBytes(16);
+				passwordHashed = this._hashPassword(password, salt);
+			} catch (error) {
+				return [ErrorResult(500, 'Lỗi khi xử lý mật khẩu')];
+			}
+
+			const [errCreate] = await userService.create({ ...rest, passwordHashed, salt });
+			if (errCreate) return [errCreate];
+
+			return [null, 'Đăng ký thành công'];
+		} catch (error) {
+			return [RepositoryError(error)];
 		}
-		const salt = crypto.randomBytes(16);
-		const passwordHashed = this.hashPassword(password, salt);
-		const user = await userRepository.create({
-			...rest,
-			passwordHashed,
-			salt,
-		});
-		const userObj = mongooseToObject(user);
-		delete userObj.passwordHashed;
-		delete userObj.salt;
-
-		const accessToken = tokenService.generateAccessToken({ id: userObj._id, email: userObj.email });
-
-		return { ...userObj, accessToken };
 	}
 
-	/**
-	 * Đăng nhập người dùng
-	 * @param {string} email - Email người dùng
-	 * @param {string} password - Mật khẩu người dùng
-	 * @returns {Promise<Object>} đối tượng người dùng nếu thành công (không bao gồm mật khẩu/muối), kèm accessToken
-	 */
 	async login(email, password) {
-		const user = await userRepository.getByEmail(email, { lean: false });
-		if (!user) {
-			throw new Error('Email hoặc mật khẩu không đúng');
-		}
-		const hashed = this.hashPassword(password, user.salt);
-		if (hashed !== user.passwordHashed) {
-			throw new Error('Email hoặc mật khẩu không đúng');
-		}
-		const userObj = mongooseToObject(user);
-		delete userObj.passwordHashed;
-		delete userObj.salt;
+		try {
+			const [errUser, user] = await userService.getByEmail(email);
+			if (errUser) return [errUser];
+			if (isEmpty(user)) return [ErrorResult(401, 'Email hoặc mật khẩu không đúng')];
 
-		const accessToken = tokenService.generateAccessToken({ id: userObj._id, email: userObj.email });
+			const hashed = this._hashPassword(password, user.salt);
+			if (hashed !== user.passwordHashed) return [ErrorResult(401, 'Email hoặc mật khẩu không đúng')];
 
-		return { ...userObj, accessToken };
+			const [errAccessToken, accessToken] = await tokenService.generateAccessToken({ uid: user._id, email: user.email, role: user.role });
+			if (errAccessToken) return [errAccessToken];
+
+			const [errRefreshToken, refreshToken] = await tokenService.generateRefreshToken({ uid: user._id, email: user.email });
+			if (errRefreshToken) return [errRefreshToken];
+
+			return [null, { accessToken, refreshToken }];
+		} catch (error) {
+			return [RepositoryError(error)];
+		}
+	}
+
+	async refreshAccessToken(refreshToken) {
+		try {
+			const [errDoc, doc] = await tokenService.getTokenDoc(refreshToken);
+			if (errDoc) return [errDoc];
+			if (isEmpty(doc)) return [ErrorResult(401, 'Token làm mới không hợp lệ')];
+			if (doc.blacklisted) return [ErrorResult(401, 'Token làm mới đã bị thu hồi')];
+
+			const [errVerify, payload] = await tokenService.verifyToken(refreshToken);
+			if (errVerify) return [errVerify];
+
+			const [errAccessToken, accessToken] = await tokenService.generateAccessToken({ uid: payload.id, email: payload.email, role: payload.role });
+			if (errAccessToken) return [errAccessToken];
+
+			const [errNewRefreshToken, newRefreshToken] = await tokenService.generateRefreshToken({ uid: payload.id, email: payload.email });
+			if (errNewRefreshToken) return [errNewRefreshToken];
+
+			await tokenService.blacklistToken(refreshToken);
+
+			return [null, { accessToken: accessToken, refreshToken: newRefreshToken }];
+		} catch (error) {
+			return [RepositoryError(error)];
+		}
+	}
+
+	async logout(refreshToken) {
+		try {
+			const [err] = await tokenService.blacklistToken(refreshToken);
+			if (err) return [err];
+			return [null, 'Đăng xuất thành công'];
+		} catch (error) {
+			return [RepositoryError(error)];
+		}
 	}
 }
 

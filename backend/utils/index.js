@@ -49,13 +49,7 @@ export function isObject(value) {
  * @returns {boolean} Trả về true nếu là đối tượng Mongoose, ngược lại trả về false.
  */
 export function isMongooseObject(value) {
-	return (
-		value &&
-		typeof value === 'object' &&
-		((typeof value.toObject === 'function' && value.constructor?.name === 'model') ||
-			value._bsontype === 'ObjectID' ||
-			value.constructor?.name === 'ObjectId')
-	);
+	return value && typeof value === 'object' && ((typeof value.toObject === 'function' && value.constructor?.name === 'model') || value._bsontype === 'ObjectID' || value.constructor?.name === 'ObjectId');
 }
 
 /**
@@ -68,6 +62,22 @@ export function mongooseToObject(value) {
 		return value.toObject();
 	}
 	return value;
+}
+
+/**
+ * Tạo options cho mongoose query để thực hiện paginate.
+ * @param {*} page - Số trang.
+ * @param {*} limit - Giới hạn mỗi trang.
+ */
+export function generatePaginateOptions(page, limit) {
+	if (isEmpty(page) || page < 1) page = 1;
+	if (isEmpty(limit) || limit < 0) limit = 10;
+	const result = {};
+
+	result.limit = limit;
+	result.skip = (page - 1) * limit;
+
+	return result;
 }
 
 /**
@@ -85,7 +95,6 @@ export function extractBearerToken(req) {
 /**
  * Lấy các cờ boolean tương ứng với phương thức HTTP của request.
  * @param {import('http').IncomingMessage} req - Đối tượng request.
- * @returns {{get: boolean, post: boolean, put: boolean, delete: boolean}} Đối tượng chứa các cờ phương thức.
  */
 export function getHttpMethodFlags(req) {
 	const method = req.method?.toLowerCase();
@@ -117,28 +126,45 @@ export function mapOrderSort(order) {
 }
 
 /**
- * Phân tích dữ liệu JSON từ request body.
- * @param {import('http').IncomingMessage} req - Đối tượng request.
- * @returns {Promise<Object>} Promise trả về object đã parse từ JSON.
+ * Đặt cookie trong header của response.
+ * @param {*} res - Đối tượng response.
+ * @param {*} name - Tên cookie.
+ * @param {*} value - Giá trị cookie.
+ * @param {*} options - Các tuỳ chọn cookie như maxAge, domain, path, expires, httpOnly, secure, sameSite.
  */
-export async function parseJson(req) {
-	return new Promise((resolve, reject) => {
-		let body = '';
-		req.on('data', (chunk) => {
-			body += chunk;
-		});
-		req.on('end', () => {
-			try {
-				const data = JSON.parse(body || '{}');
-				resolve(data);
-			} catch (err) {
-				reject(new Error('Invalid JSON'));
-			}
-		});
-		req.on('error', (err) => {
-			reject(err);
-		});
-	});
+export function setCookie(res, name, value, options = {}) {
+	let cookieStr = `${name}=${encodeURIComponent(value)}`;
+	if (options.maxAge) cookieStr += `; Max-Age=${options.maxAge}`;
+	if (options.domain) cookieStr += `; Domain=${options.domain}`;
+	if (options.path) cookieStr += `; Path=${options.path}`;
+	if (options.expires) cookieStr += `; Expires=${options.expires.toUTCString()}`;
+	if (options.httpOnly) cookieStr += '; HttpOnly';
+	if (options.secure) cookieStr += '; Secure';
+	if (options.sameSite) cookieStr += `; SameSite=${options.sameSite}`;
+	const existingSetCookie = res.getHeader('Set-Cookie');
+	if (existingSetCookie) {
+		if (Array.isArray(existingSetCookie)) {
+			res.setHeader('Set-Cookie', [...existingSetCookie, cookieStr]);
+		} else {
+			res.setHeader('Set-Cookie', [existingSetCookie, cookieStr]);
+		}
+	} else {
+		res.setHeader('Set-Cookie', cookieStr);
+	}
+}
+
+/**
+ * Lấy giá trị cookie từ header của request.
+ * @param {*} req - Đối tượng request.
+ * @param {*} name - Tên cookie cần lấy.
+ * @returns {string|null} Giá trị cookie nếu tồn tại, ngược lại trả về null.
+ */
+export function getCookie(req, name) {
+	const cookieHeader = req.headers?.cookie;
+	if (!cookieHeader) return null;
+	const cookies = cookieHeader.split(';').map((c) => c.trim());
+	const cookie = cookies.find((c) => c.startsWith(`${name}=`));
+	return cookie ? decodeURIComponent(cookie.split('=')[1]) : null;
 }
 
 /**
@@ -163,4 +189,17 @@ export function sendJsonResponse(res, statusCode, data) {
 export function sendErrorResponse(res, statusCode, message, rest = {}) {
 	const errorObj = typeof message === 'string' ? { error: message, ...rest } : { ...message, ...rest };
 	sendJsonResponse(res, statusCode, errorObj);
+}
+
+/**
+ * Kiểm tra giá trị có rỗng hay không.
+ * @param {*} value
+ * @returns {boolean} Trả về true nếu rỗng, ngược lại trả về false.
+ */
+export function isEmpty(value) {
+	if (value == null) return true;
+	if (isString(value)) return value.trim().length === 0;
+	if (isArray(value)) return value.length === 0;
+	if (isObject(value)) return Object.keys(value).length === 0;
+	return false;
 }
