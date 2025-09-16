@@ -4,7 +4,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: var(--color-while);
+	background-color: var(--color-white);
 	font-family: var(--font-family);
 }
 
@@ -18,7 +18,7 @@
 
 .content {
 	width: 100%;
-	background-color: var(--color-while);
+	background-color: var(--color-white);
 	padding: 3rem 2rem;
 	border-radius: var(--border-radius-lg);
 	box-shadow: 0 4px 12px var(--neutral-light);
@@ -27,7 +27,7 @@
 	align-items: center;
 }
 
-.title{
+.title {
 	font-size: 2em;
 	font-weight: var(--font-bold);
 	margin-bottom: 0.25em;
@@ -42,7 +42,7 @@
 
 .submit {
 	width: 100%;
-	color: var(--txt-while);
+	color: var(--txt-white);
 
 	button {
 		width: 100%;

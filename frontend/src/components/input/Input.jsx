@@ -10,15 +10,13 @@ function Input({ name = 'Name', label = 'Label', type = 'text', placeholder = 'P
 				{label}
 			</label>
 			<label className={`${styles.input}`} htmlFor={id}>
-				<input type={type} placeholder={placeholder} id={id} value={value} onChange={onChange} {...rest} />
+				<input type={type} placeholder={placeholder} id={id} name={name} value={value} onChange={onChange} {...(type === 'date' ? { pattern: '\\d{4}-\\d{2}-\\d{2}' } : {})} {...rest} />
 			</label>
 			<span className={styles.error}>{error}</span>
-		</div>	
+		</div>
 	);
 }
 
 export default Input;
- 
+
 //****** */
-
-

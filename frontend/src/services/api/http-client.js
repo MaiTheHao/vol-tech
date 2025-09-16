@@ -1,73 +1,36 @@
-// import APP_CONFIG from '../../../config.js';
-
-// const defaultHeaders = {
-// 	'Content-Type': 'application/json',
-// };
-
-// const request = async (method, path = '', body = null, headers = {}) => {
-// 	const url = APP_CONFIG.api.getFullPath(path);
-// 	const options = {
-// 		method,
-// 		headers: { ...defaultHeaders, ...headers },
-// 		...(body ? { body: JSON.stringify(body) } : {}),
-// 	};
-// 	const response = await fetch(url, options);
-// 	return response.json();
-// };
-
-// export const httpGet = (path, headers = {}) => request('GET', path, null, headers);
-
-// export const httpPost = (path, body, headers = {}) => request('POST', path, body, headers);
-
-// export const httpPut = (path, body, headers = {}) => request('PUT', path, body, headers);
-
-// export const httpPatch = (path, body, headers = {}) => request('PATCH', path, body, headers);
-
-// export const httpDelete = (path, headers = {}) => request('DELETE', path, null, headers);
-
-
-
-
-
 import APP_CONFIG from '../../../config.js';
 
 const defaultHeaders = {
-  'Content-Type': 'application/json',
+	'Content-Type': 'application/json',
 };
 
 const request = async (method, path = '', body = null, headers = {}) => {
-  const url = APP_CONFIG.api.getFullPath(path);
-  const options = {
-    method,
-    headers: { ...defaultHeaders, ...headers },
-    ...(body ? { body: JSON.stringify(body) } : {}),
-  };
+	const url = APP_CONFIG.api.getFullPath(path);
+	const options = {
+		method,
+		headers: { ...defaultHeaders, ...headers },
+		...(body ? { body: JSON.stringify(body) } : {}),
+	};
 
-  try {
-    const response = await fetch(url, options);
+	try {
+		const response = await fetch(url, options);
 
-    // Nếu API trả lỗi (status >= 400)
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`❌ API Error [${method}] ${url}:`, response.status, errorText);
+		if (!response.ok) {
+			const errorText = await response.text();
+			let errorBody;
+			try {
+				errorBody = JSON.parse(errorText);
+			} catch {
+				errorBody = { message: errorText };
+			}
+			throw new Error(errorBody.message || `HTTP ${response.status}`);
+		}
 
-      // Thử parse JSON, fallback sang text
-      let errorBody;
-      try {
-        errorBody = JSON.parse(errorText);
-      } catch {
-        errorBody = { message: errorText };
-      }
-
-      throw new Error(errorBody.message || `HTTP ${response.status}`);
-    }
-
-    // Trường hợp thành công
-    return await response.json();
-  } catch (err) {
-    console.error(`❌ Fetch failed [${method}] ${url}:`, err);
-    throw err;
-  }
+		return await response.json();
+	} catch (err) {
+		console.error(`Fetch failed [${method}] ${url}:`, err);
+		throw err;
+	}
 };
 
 export const httpGet = (path, headers = {}) => request('GET', path, null, headers);

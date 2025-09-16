@@ -1,75 +1,65 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './register.module.scss';
-import { register } from '../../services/api/v1/auth-api.service';
-import Input from '../../components/input/Input';
+import AuthForm from '../../components/auth-form/AuthForm.jsx';
+import useAuthContext from '../../contexts/auth/useAuthContext.jsx';
+
+const fields = [
+	{ name: 'name', label: 'Tên người dùng', type: 'text', placeholder: 'Nhập tên người dùng' },
+	{ name: 'email', label: 'Email', type: 'email', placeholder: 'Nhập email' },
+	{ name: 'birthDate', label: 'Ngày sinh', type: 'date', placeholder: 'Chọn ngày sinh' },
+	{ name: 'unit', label: 'Đơn vị', type: 'text', placeholder: 'Nhập đơn vị' },
+	{ name: 'phone', label: 'Số điện thoại', type: 'tel', placeholder: 'Nhập số điện thoại' },
+	{ name: 'password', label: 'Mật khẩu', type: 'password', placeholder: 'Nhập mật khẩu' },
+	{ name: 'confirmPassword', label: 'Xác nhận mật khẩu', type: 'password', placeholder: 'Nhập lại mật khẩu' },
+];
 
 export default function Register() {
-    const [name, setName] =useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
-	const [loading, setLoading] = useState(false);
+	const [values, setValues] = useState({
+		name: '',
+		email: '',
+		birthDate: '',
+		unit: '',
+		phone: '',
+		password: '',
+		confirmPassword: '',
+	});
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
+	const { register, loading } = useAuthContext();
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setValues((prev) => ({ ...prev, [name]: value }));
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (email.trim() === '' || password.trim() === '' || name.trim() === '') {
-			setError('Vui lòng điền đầy đủ thông tin email và mật khẩu');
+		const { name, email, birthDate, unit, phone, password, confirmPassword } = values;
+		if (!name.trim() || !email.trim() || !birthDate.trim() || !unit.trim() || !phone.trim() || !password.trim()) {
+			setError('Vui lòng điền đầy đủ thông tin');
 			return;
 		}
-
 		if (password !== confirmPassword) {
-			setError("Mật khẩu không khớp");
-			setLoading(false)
+			setError('Mật khẩu không khớp');
 			return;
-		} else {
-			setError("");
 		}
-		setLoading(true);
-		setError(null);
-
-		try {
-			const user = await register(email, password);
-			localStorage.setItem('user', JSON.stringify(user));
-			navigate('/');
-		} catch (err) {
-			setError(err.message || 'Register thất bại');
-		} finally {
-			setLoading(false);
+		setError('');
+		const res = await register({ name, email, password, birthDate, unit, phone });
+		if (res?.message) {
+			navigate('/login');
+		} else {
+			setError(res?.error || 'Đăng ký thất bại');
 		}
 	};
 
 	return (
-		<div className={styles.RegisterPage}>
-			<div className={styles.container}>
-				<div className={styles.content}>
-					<h1 className={styles.title}>Đăng kí</h1>
-					<form onSubmit={handleSubmit} className={styles.form}>
-						<Input name='name' label='Tên người dùng' type='name' placeholder='Nhập tên người dùng' value={name} onChange={(e) => setName(e.target.value)} error={error && error.includes('name') ? error : ''} />
-						<Input name='email' label='Email' type='email' placeholder='Nhập email' value={email} onChange={(e) => setEmail(e.target.value)} error={error && error.includes('email') ? error : ''} />
-                        <Input name='password' label='Mật khẩu' type='password' placeholder='Nhập mật khẩu' value={password} onChange={(e) => setPassword(e.target.value)} error={error && error.includes('password') ? error : ''} />
-                        <Input name='confirmPassword' label='Xác nhận mật khẩu' type='password' placeholder='Nhập lại mật khẩu' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} error={error && error.includes('password') ? error : ''} />
-						<div className={styles.submit}>
-							<button type='submit' disabled={loading}>
-								{loading ? 'Đang đăng kí...' : 'Đăng kí'}
-							</button>
-						</div>
-						{error && !error.includes('email') && !error.includes('password') && <p className={styles.error}>{error}</p>}
-					</form>
-					<p className={styles.registerText}>
-						Đã có tài khoản? <Link to='/login'>Đăng nhập</Link>
-					</p>
-				</div>
-			</div>
-		</div>
+		<AuthForm title='Đăng kí' fields={fields} values={values} onChange={handleChange} onSubmit={handleSubmit} loading={loading} error={error} submitText='Đăng kí'>
+			<p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: 'var(--txt-secondary)', textAlign: 'center' }}>
+				Đã có tài khoản?{' '}
+				<Link to='/login' style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
+					Đăng nhập
+				</Link>
+			</p>
+		</AuthForm>
 	);
 }
-
-// //regexe
-// //zod
-
-
-
-

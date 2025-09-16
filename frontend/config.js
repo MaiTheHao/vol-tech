@@ -1,10 +1,20 @@
-const ENV = {
-	VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL ?? 'http://localhost',
-	VITE_API_PORT: import.meta.env.VITE_API_PORT ?? '3000',
-	VITE_API_PREFIX: import.meta.env.VITE_API_PREFIX ?? '/api',
-	VITE_API_VER: import.meta.env.VITE_API_VER ?? '/v1',
-	VITE_API_TIMEOUT: import.meta.env.VITE_API_TIMEOUT ?? 5000,
-};
+import { z } from 'zod';
+
+const envSchema = z.object({
+	VITE_API_BASE_URL: z.string().url().default('http://localhost'),
+	VITE_API_PORT: z.string().regex(/^\d+$/).default('3000'),
+	VITE_API_PREFIX: z.string().default('/api'),
+	VITE_API_VER: z.string().default('/v1'),
+	VITE_API_TIMEOUT: z.coerce.number().default(5000),
+});
+
+const ENV = envSchema.parse({
+	VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
+	VITE_API_PORT: import.meta.env.VITE_API_PORT,
+	VITE_API_PREFIX: import.meta.env.VITE_API_PREFIX,
+	VITE_API_VER: import.meta.env.VITE_API_VER,
+	VITE_API_TIMEOUT: import.meta.env.VITE_API_TIMEOUT,
+});
 
 const APP_CONFIG = {
 	api: {
