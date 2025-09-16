@@ -17,12 +17,10 @@ class ProvinceRepository extends BaseRepository {
 	}
 
 	async findByCode(code, projection = {}, options = {}) {
-		await connectDB();
 		return this.findOne({ code: code.toUpperCase() }, projection, options);
 	}
 
 	async findByName(name, projection = {}, options = {}) {
-		await connectDB();
 		return this.find({ name: new RegExp('^' + name, 'i') }, projection, options);
 	}
 }

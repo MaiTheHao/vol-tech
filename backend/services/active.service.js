@@ -1,5 +1,5 @@
 import activeRepository from '../repository/active.repository.js';
-import { isEmpty } from '../utils/index.js';
+import { isEmpty } from '../utils/type-check.js';
 import { ErrorResult, RepositoryError } from '../error/index.js';
 import { isValidObjectId } from 'mongoose';
 import userService from './user.service.js';
@@ -89,15 +89,15 @@ class ActiveService {
 		}
 	}
 
-	async create(data) {
+	async create(creator, data) {
 		try {
 			if (isEmpty(data)) return [ErrorResult(400, 'Thiếu dữ liệu hoạt động')];
-			if (isEmpty(data.createdBy) || !isValidObjectId(data.createdBy)) return [ErrorResult(400, 'Cần ID người tạo hợp lệ')];
+			if (isEmpty(creator) || !isValidObjectId(creator)) return [ErrorResult(400, 'Cần ID người tạo hợp lệ')];
 
-			const [errCreator] = await userService.getById(data.createdBy);
+			const [errCreator] = await userService.getById(creator);
 			if (errCreator) return [errCreator];
 
-			const active = await activeRepository.create(data);
+			const active = await activeRepository.create({ ...data, createdBy: creator });
 			return [null, active];
 		} catch (error) {
 			return [RepositoryError(error)];

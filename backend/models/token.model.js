@@ -4,8 +4,6 @@ const TokenSchema = new mongoose.Schema(
 	{
 		_id: {
 			type: String,
-			required: true,
-			unique: true,
 		},
 		token: {
 			type: String,
@@ -22,6 +20,7 @@ const TokenSchema = new mongoose.Schema(
 	}
 );
 
+TokenSchema.index({ _id: 1 }, { unique: true });
 TokenSchema.index({ _id: 1, blacklisted: 1 });
 const TokenModel = mongoose.models.Token || mongoose.model('Token', TokenSchema);
 export default TokenModel;

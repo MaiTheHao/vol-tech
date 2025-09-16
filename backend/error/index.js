@@ -1,4 +1,4 @@
-import { isEmpty, isObject } from '../utils/index.js';
+import { isEmpty, isObject } from '../utils/type-check.js';
 
 export function ErrorResult(code, message, ...rest) {
 	if (isEmpty(code) || isEmpty(message)) throw new Error('Code and message of AppError must not be null');

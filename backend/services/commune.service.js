@@ -1,5 +1,5 @@
 import communeRepository from '../repository/commune.repository.js';
-import { isEmpty } from '../utils/index.js';
+import { isEmpty } from '../utils/type-check.js';
 import { ErrorResult, RepositoryError } from '../error/index.js';
 
 class CommuneService {

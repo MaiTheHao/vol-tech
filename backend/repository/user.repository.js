@@ -1,6 +1,5 @@
 import BaseRepository from './base.repository.js';
 import User from '../models/user.model.js';
-import { connectDB } from '../lib/mongoose.js';
 
 class UserRepository extends BaseRepository {
 	static _instance = null;
@@ -15,7 +14,6 @@ class UserRepository extends BaseRepository {
 	}
 
 	async findByEmail(email, projection = {}, options = {}) {
-		await connectDB();
 		return this.findOne({ email }, projection, options);
 	}
 }

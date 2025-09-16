@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import userService from './user.service.js';
 import tokenService from './token.service.js';
-import { isEmpty } from '../utils/index.js';
+import { isEmpty } from '../utils/type-check.js';
 import { ErrorResult, RepositoryError } from '../error/index.js';
 
 class AuthService {

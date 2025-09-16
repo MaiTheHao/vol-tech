@@ -32,7 +32,6 @@ const ActiveSchema = new mongoose.Schema(
 			type: String,
 			enum: Object.values(ACTIVE_STATUS),
 			default: ACTIVE_STATUS.CLOSED,
-			required: true,
 		},
 		commune: {
 			type: mongoose.Schema.Types.ObjectId,

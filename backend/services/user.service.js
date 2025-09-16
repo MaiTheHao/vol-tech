@@ -1,5 +1,5 @@
 import userRepository from '../repository/user.repository.js';
-import { isEmpty } from '../utils/index.js';
+import { isEmpty } from '../utils/type-check.js';
 import { ErrorResult, RepositoryError } from '../error/index.js';
 
 class UserService {
