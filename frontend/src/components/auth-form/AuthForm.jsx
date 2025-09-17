@@ -3,7 +3,6 @@ import styles from './AuthForm.module.scss';
 import Input from '../input/Input';
 
 const AuthForm = ({ title = '', fields = [], values = {}, onChange = () => {}, onSubmit = () => {}, loading = false, error = null, submitText = 'Xác nhận', children }) => {
-	// Determine if the error is a general error or field-specific errors
 	const isGeneralError = typeof error === 'string';
 	const fieldErrors = !isGeneralError && error ? error : {};
 

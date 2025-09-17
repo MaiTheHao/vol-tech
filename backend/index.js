@@ -7,11 +7,13 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 
-app.use(morgan('dev'));
 app.use(cors);
+
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(database);
+
 app.use('/api', api);
 
 const PORT = env.PORT || 3000;

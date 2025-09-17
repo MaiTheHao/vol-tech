@@ -30,13 +30,13 @@ export default function Header() {
 
 				<div className={styles.headerRight}>
 					{isAuth && user ? (
-						<div className={styles.profileButton}>
+						<Link className={styles.profileButton} to={ROUTES.PROFILE.path}>
 							<div className={styles.info}>
 								<UsernameLink user={user} loading={loading} />
 								<PointLink pointText={user?.score ?? 0} pointSrc={RankIcon} />
 							</div>
 							<AvatarLink avatarSrc={user?.avatar || AvatarIcon} altText={user?.name || 'Loading'} />
-						</div>
+						</Link>
 					) : (
 						<div className={styles.authButtons}>
 							<Link to={ROUTES.LOGIN.path} className={styles.buttonGhost}>
