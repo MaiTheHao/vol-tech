@@ -1,46 +1,37 @@
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styles from '../header.module.scss';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ROUTES } from '../../../../const/index.js';
-
-export function LogoLink({ LogoSrc, altText, onClick }) {
-	return (
-		<Link to={ROUTES.HOME.path} className={styles.logoLink} onClick={onClick}>
-			<img src={LogoSrc} alt={altText} />
-		</Link>
-	);
-}
 
 export default function Navbar() {
 	const [menuOpen, setMenuOpen] = useState(false);
 
-	const handleButtonClick = () => {
+	const handleToTop = () => {
 		setMenuOpen(false);
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	};
 
+	const navRoutes = useMemo(
+		() => [
+			{ path: ROUTES.HOME.path, label: 'Trang chủ' },
+			{ path: ROUTES.ACTIVE.path, label: 'Hoạt động' },
+			{ path: ROUTES.ABOUT.path, label: 'Giới thiệu' },
+		],
+		[]
+	);
+
 	return (
-		<div>
-			<nav className={styles.navbar}>
-				<div className={styles.ContainerNavbar}>
-					<div className={styles.Block}>
-						<NavLink to={ROUTES.HOME.path} className={({ isActive }) => (isActive ? `${styles.navItem} ${styles.active}` : styles.navItem)} onClick={handleButtonClick}>
-							Trang chủ
-							<div className={`${styles.defaultNav} ${menuOpen ? styles.show : ''}`}></div>
+		<nav className={styles.navbar}>
+			<div className={styles.navbarContainer}>
+				{navRoutes.map((route, idx) => (
+					<div className={styles.navBlock} key={route.path}>
+						<NavLink to={route.path} className={({ isActive }) => (isActive ? `${styles.navItem} ${styles.active}` : styles.navItem)} onClick={handleToTop}>
+							{route.label}
+							{idx === 0 && <div className={`${styles.navDesktop} ${menuOpen ? styles.show : ''}`}></div>}
 						</NavLink>
 					</div>
-					<div className={styles.Block}>
-						<NavLink to={ROUTES.ACTIVE.path} className={({ isActive }) => (isActive ? `${styles.navItem} ${styles.active}` : styles.navItem)}>
-							Hoạt động
-						</NavLink>
-					</div>
-					<div className={styles.Block}>
-						<NavLink to={ROUTES.ABOUT.path} className={({ isActive }) => (isActive ? `${styles.navItem} ${styles.active}` : styles.navItem)}>
-							Giới thiệu
-						</NavLink>
-					</div>
-				</div>
-			</nav>
-		</div>
+				))}
+			</div>
+		</nav>
 	);
 }

@@ -1,24 +1,24 @@
 import styles from '../header.module.scss';
+import AvatarPlaceholder from '../../../../assets/imgs/avatar-placeholder.png';
+import RankIcon from '../../../../assets/Icons/IconPoint.svg';
 
-export function AvatarLink({ avatarSrc, altText }) {
+export default function Profile({ user, loading }) {
+	const avatarSrc = user?.avatar || AvatarPlaceholder;
+	const pointText = user?.score ?? 0;
 	return (
-		<div className={styles.avatarLink}>
-			<img src={avatarSrc} alt={altText} />
-		</div>
-	);
-}
-
-export function PointLink({ pointSrc, pointText }) {
-	return (
-		<div className={styles.rank}>
-			<div>{pointText}</div>
-			<div>
-				<img src={pointSrc} alt={pointText} />
+		<>
+			<div className={styles.info}>
+				<div className={styles.username}>{loading ? 'Đang tải...' : user?.name || 'Người dùng'}</div>
+				<div className={styles.rank}>
+					<div>{pointText}</div>
+					<div>
+						<img src={RankIcon} alt={pointText} />
+					</div>
+				</div>
 			</div>
-		</div>
+			<div className={styles.avatar}>
+				<img src={avatarSrc} alt={user?.name || 'Loading'} />
+			</div>
+		</>
 	);
-}
-
-export default function UsernameLink({ user, loading }) {
-	return <div className={styles.usernameLink}>{loading ? 'Đang tải...' : user?.name || 'Người dùng'}</div>;
 }

@@ -10,12 +10,6 @@
 	}
 }
 
-.container {
-	max-width: $max-screen-width;
-	margin: 0 auto;
-	padding: 0 1.5em;
-}
-
 .content {
 	text-align: center;
 }
@@ -53,38 +47,6 @@
 	@media (min-width: $app-tablet) {
 		flex-direction: row;
 		justify-content: center;
-	}
-}
-
-.btn {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5em;
-	padding: 1em 2em;
-	font-size: clamp(1em, 1.5vw, 1.25em);
-	font-weight: var(--font-medium);
-	border-radius: var(--border-radius-lg);
-	text-decoration: none;
-	transition: all 0.3s ease;
-}
-
-.btnAccent {
-	background-color: var(--color-accent);
-	color: var(--txt-white);
-
-	&:hover {
-		background-color: var(--color-accent);
-	}
-}
-
-.btnOutline {
-	border: 0.125em solid var(--txt-white);
-	color: var(--txt-white);
-	background-color: transparent;
-
-	&:hover {
-		background-color: var(--txt-white);
-		color: var(--color-primary);
 	}
 }
 
@@ -127,6 +89,11 @@
 .statNumber {
 	font-size: clamp(1.25em, 2vw, 1.5em);
 	font-weight: var(--font-bold);
+}
+
+.statLabel {
+	color: rgba(255, 255, 255, 0.8);
+	font-size: clamp(0.8em, 1vw, 0.9em);
 }
 
 .statLabel {

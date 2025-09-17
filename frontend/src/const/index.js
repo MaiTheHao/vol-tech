@@ -19,6 +19,11 @@ export const ROUTES = {
 		name: 'Profile',
 		description: 'Trang hồ sơ người dùng',
 	},
+	CONTACT: {
+		path: '/contact',
+		name: 'Contact',
+		description: 'Trang liên hệ',
+	},
 	ABOUT: {
 		path: '/about',
 		name: 'About',
@@ -29,5 +34,15 @@ export const ROUTES = {
 		name: 'Active',
 		description: 'Trang các mục đang hoạt động',
 		withId: (id) => `/active/${id}`,
+	},
+	HELP: {
+		path: '/help',
+		name: 'Help',
+		description: 'Trang trợ giúp',
+	},
+	TERMS: {
+		path: '/terms',
+		name: 'Terms',
+		description: 'Trang điều khoản sử dụng',
 	},
 };

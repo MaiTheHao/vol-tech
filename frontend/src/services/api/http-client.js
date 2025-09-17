@@ -4,7 +4,7 @@ const defaultHeaders = {
 	'Content-Type': 'application/json',
 };
 
-const request = async (method, path = '', body = null, headers = {}) => {
+const request = (method, path = '', body = null, headers = {}) => {
 	const url = APP_CONFIG.api.getFullPath(path);
 	const options = {
 		method,
@@ -12,25 +12,7 @@ const request = async (method, path = '', body = null, headers = {}) => {
 		...(body ? { body: JSON.stringify(body) } : {}),
 	};
 
-	try {
-		const response = await fetch(url, options);
-
-		if (!response.ok) {
-			const errorText = await response.text();
-			let errorBody;
-			try {
-				errorBody = JSON.parse(errorText);
-			} catch {
-				errorBody = { message: errorText };
-			}
-			throw new Error(errorBody.message || `HTTP ${response.status}`);
-		}
-
-		return await response.json();
-	} catch (err) {
-		console.error(`Fetch failed [${method}] ${url}:`, err);
-		throw err;
-	}
+	return fetch(url, options);
 };
 
 export const httpGet = (path, headers = {}) => request('GET', path, null, headers);

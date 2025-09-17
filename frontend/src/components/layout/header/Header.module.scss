@@ -1,6 +1,6 @@
 @use '../../../styles/vars.scss' as *;
 
-.Header {
+.header {
 	z-index: 1000;
 	position: sticky;
 	top: 0;
@@ -10,29 +10,16 @@
 	box-shadow: 0 0.1em 0.25em 0.1em var(--color-light);
 }
 
-.Container {
+.container {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0em 0.4em;
+	padding: 0 1em;
+	max-width: $max-screen-width;
+	margin: 0 auto;
+	gap: 1.5em;
 }
 
-.headerLeft {
-	position: relative;
-	display: flex;
-	align-items: center;
-	gap: 1em;
-}
-
-.headerRight {
-	display: flex;
-	align-items: center;
-	gap: 0.6em;
-}
-
-/* ===============================
-   Profile / User Section
-================================= */
 .profileButton {
 	display: flex;
 	align-items: center;
@@ -82,22 +69,16 @@
 	}
 }
 
-/* ===============================
-   Navigation
-================================= */
-.defaultNav {
+.navDesktop {
 	display: none;
 }
 
-.minimalNav {
+.navMobile {
 	display: block;
 	background-color: var(--app-background);
 	padding: 0 0.4em;
 }
 
-/* ===============================
-   Hamburger Menu           
-================================= */
 .menuToggle {
 	cursor: pointer;
 	display: flex;
@@ -141,11 +122,9 @@
 	}
 }
 
-/* ===============================
-   Responsive
-================================= */
 @media screen and (max-width: $app-tablet) {
 	.headerRight {
+		display: flex;
 		gap: 0.4em;
 	}
 	.headerLeft {
@@ -154,32 +133,29 @@
 }
 
 @media screen and (min-width: $app-tablet) {
-	.defaultNav {
+	.navDesktop {
 		display: block;
 	}
-	.minimalNav {
+	.navMobile {
 		display: none;
 		z-index: 200;
 	}
 }
 
-/* ===============================
-   Navbar
-================================= */
-.logoLink {
+.logo {
 	display: flex;
 }
 
-.ContainerNavbar {
+.navbarContainer {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	gap: 0.875em;
+	gap: 2em;
 }
 
-.Container {
-	gap: clamp(0.6em, 1.5vw, 2em);
+.container {
+	gap: 1.5em;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -193,7 +169,7 @@
 	-webkit-background-clip: text;
 	background-clip: text;
 	position: relative;
-	font-size: clamp(1em, 1vw, 1.6em);
+	font-size: 1.2em;
 
 	&::after {
 		content: '';
@@ -225,25 +201,22 @@
 
 @media (max-width: $app-tablet) {
 	.navbar {
-		margin-top: 1em;
-		border-top: 1px solid var(--txt-primary);
+		border-top: 0.0625em solid var(--txt-primary);
+		border-bottom: 0.0625em solid var(--txt-primary);
 		border-bottom: 1px solid var(--txt-primary);
 		opacity: 0.8;
 	}
 
-	.ContainerNavbar {
+	.navbarContainer {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: start;
-		gap: 0em;
+		gap: 0;
 	}
-
-	.Block {
+	.navBlock {
 		width: 100%;
-
 		.navItem {
-			color: var(--txt-primary);
 			font-size: 1em;
 			font-family: var(--font-family);
 			display: block;
@@ -274,3 +247,46 @@
 /* ===============================
   Profile
 ================================= */
+.avatar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.5em;
+	height: 2.5em;
+	border-radius: 50%;
+	border: 1px solid var(--color-light);
+	overflow: hidden;
+	background-color: var(--color-light);
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50%;
+		display: block;
+	}
+}
+
+.rank {
+	display: flex;
+	align-items: center;
+	gap: 0.4em;
+	font-size: 0.95em;
+	color: var(--txt-accent);
+
+	img {
+		width: 1.2em;
+		height: 1.2em;
+		object-fit: contain;
+	}
+}
+
+.username {
+	font-size: 1em;
+	font-weight: var(--font-medium);
+	color: var(--txt-primary);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 8em;
+}

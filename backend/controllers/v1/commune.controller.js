@@ -20,10 +20,20 @@ export async function getList(req, res) {
 			query.province = province;
 		}
 
-		const [err, communes] = await communeService.getList(query, {}, paginateOptions);
+		const [listResult, countResult] = await Promise.all([communeService.getList(query, {}, paginateOptions), communeService.count(query)]);
+		const [err, communes] = listResult;
+		const [errCount, totalItems] = countResult;
+
+		const paginate = {
+			totalItems: errCount ? 0 : totalItems,
+			currentPage: paginateOptions.page,
+			totalPages: errCount ? 1 : Math.ceil(totalItems / paginateOptions.limit),
+			limit: paginateOptions.limit,
+		};
+
 		if (err) return sendErrorResponse(res, err.code || 404, err.message);
 
-		return sendJsonResponse(res, 200, communes);
+		return sendJsonResponse(res, 200, { items: communes, paginate });
 	} catch (error) {
 		console.error(error);
 		return sendErrorResponse(res, 500, 'Lỗi máy chủ nội bộ');

@@ -1,0 +1,125 @@
+@use '../../../styles/vars.scss' as *;
+
+.card {
+	border: none;
+	border-radius: var(--border-radius-xl);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color: var(--color-white);
+	box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.1);
+	transition: box-shadow 0.3s ease;
+
+	&:hover {
+		box-shadow: 0 0.5em 1.5em rgba(0, 0, 0, 0.15);
+	}
+
+	@media (max-width: 479px) {
+		border-radius: var(--border-radius-lg);
+	}
+}
+
+.imageWrapper {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	aspect-ratio: 16/9;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.image {
+	width: 100%;
+	min-height: 12em;
+	object-fit: cover;
+}
+
+.badge {
+	position: absolute;
+	top: 0.8em;
+	right: 0.8em;
+	background-color: var(--color-accent);
+	color: var(--txt-white);
+	font-size: clamp(0.75em, 1.5vw, 0.85em);
+	padding: 0.4em 0.8em;
+	border-radius: var(--border-radius-lg);
+	font-weight: var(--font-medium);
+
+	@media (min-width: $app-tablet) {
+		top: 1em;
+		right: 1em;
+	}
+}
+
+.cardContent {
+	padding: 1.5em;
+	display: flex;
+	height: 100%;
+	width: 100%;
+	justify-content: flex-end;
+	flex-direction: column;
+	gap: 1em;
+
+	@media (min-width: $app-tablet) {
+		padding: 2em;
+		gap: 1.25em;
+	}
+}
+
+.cardTitle {
+	font-size: clamp(1.1em, 2.5vw, 1.4em);
+	font-weight: var(--font-semibold);
+	color: var(--txt-black);
+	line-height: 1.3;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+
+	@media (min-width: $app-tablet) {
+		line-height: 1.4;
+	}
+}
+
+.details {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
+	font-size: clamp(0.85em, 1.8vw, 1em);
+	color: var(--txt-secondary);
+
+	@media (min-width: $app-tablet) {
+		gap: 0.6em;
+	}
+}
+
+.detailItem {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	min-height: 1.5em;
+
+	span:last-child {
+		flex: 1;
+		word-break: break-word;
+	}
+}
+
+.icon {
+	width: 1.1em;
+	height: 1.1em;
+	color: var(--txt-secondary);
+	flex-shrink: 0;
+
+	@media (min-width: $app-tablet) {
+		width: 1.2em;
+		height: 1.2em;
+	}
+}
+
+.btnWrapper {
+	margin-top: auto;
+	padding-top: 0.5em;
+}

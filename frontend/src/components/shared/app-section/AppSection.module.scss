@@ -1,0 +1,11 @@
+@use '../../../styles/vars.scss' as *;
+
+.section {
+	width: 100%;
+}
+
+.container {
+	max-width: $max-screen-width;
+	margin: 0 auto;
+	padding: 0 1.5em;
+}

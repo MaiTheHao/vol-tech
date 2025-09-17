@@ -17,10 +17,20 @@ export async function getList(req, res) {
 			query.code = String(code).toUpperCase();
 		}
 
-		const [err, provinces] = await provinceService.getList(query, {}, paginateOptions);
+		const [listResult, countResult] = await Promise.all([provinceService.getList(query, {}, paginateOptions), provinceService.count(query)]);
+		const [err, provinces] = listResult;
+		const [errPaginate, totalItems] = countResult;
+
+		const paginate = {
+			totalItems: errPaginate ? 0 : totalItems,
+			currentPage: paginateOptions.page,
+			totalPages: errPaginate ? 1 : Math.ceil(totalItems / paginateOptions.limit),
+			limit: paginateOptions.limit,
+		};
+
 		if (err) return sendErrorResponse(res, err.code || 404, err.message);
 
-		return sendJsonResponse(res, 200, provinces);
+		return sendJsonResponse(res, 200, { items: provinces, paginate });
 	} catch (error) {
 		console.error(error);
 		return sendErrorResponse(res, 500, 'Lỗi máy chủ nội bộ');
