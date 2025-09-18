@@ -1,7 +1,6 @@
 @use '../../styles/vars.scss' as *;
 
 .activeSection {
-	background-color: var(--app-background);
 	padding: 3em 0;
 
 	@media (min-width: $app-tablet) {
