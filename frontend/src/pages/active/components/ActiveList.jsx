@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './ActiveList.module.scss';
-import ActiveCard from './ActiveCard';
+import ActiveCard from '../../../components/shared/card/active/ActiveCard';
 
 export default function ActiveList({ activities, loading }) {
 	if (loading) return <div className={styles.loading}>Đang tải...</div>;
@@ -8,7 +8,7 @@ export default function ActiveList({ activities, loading }) {
 	return (
 		<div className={styles.grid}>
 			{activities.map((activity) => (
-				<ActiveCard key={activity._id} activity={activity} />
+				<ActiveCard key={activity._id} activity={activity} showCreator={true} />
 			))}
 		</div>
 	);

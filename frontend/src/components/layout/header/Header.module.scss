@@ -1,7 +1,6 @@
 @use '../../../styles/vars.scss' as *;
 
 .header {
-	z-index: 1000;
 	position: sticky;
 	top: 0;
 	width: 100%;
@@ -18,55 +17,19 @@
 	max-width: $max-screen-width;
 	margin: 0 auto;
 	gap: 1.5em;
+	border: var(--color-white);
 }
 
-.profileButton {
+.logo {
 	display: flex;
+}
+
+.navbarContainer {
+	display: flex;
+	flex-direction: row;
 	align-items: center;
-	font-size: 1em;
-	gap: 0.6em;
-}
-
-.info {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-}
-
-.authButtons {
-	display: flex;
-	gap: 0.5em;
-
-	a {
-		text-decoration: none;
-		font-size: 0.95em;
-		padding: 0.5em 0.9em;
-		border-radius: var(--border-radius-lg);
-		font-weight: var(--font-medium);
-		transition: background-color 0.25s, color 0.25s, border-color 0.25s;
-	}
-}
-
-.buttonGhost {
-	background-color: var(--color-primary);
-	color: var(--txt-white);
-	border: 0.0625em solid var(--color-primary);
-
-	&:hover {
-		background-color: var(--color-primary-white);
-		border-color: var(--color-primary-white);
-	}
-}
-
-.buttonPrimary {
-	background-color: var(--color-primary);
-	color: var(--txt-white);
-	border: 0.0625em solid var(--color-primary);
-
-	&:hover {
-		background-color: var(--color-primary-white);
-		border-color: var(--color-primary-white);
-	}
+	justify-content: center;
+	gap: 2em;
 }
 
 .navDesktop {
@@ -77,6 +40,43 @@
 	display: block;
 	background-color: var(--app-background);
 	padding: 0 0.4em;
+}
+
+.navItem {
+	color: var(--txt-primary);
+	font-family: var(--font-family);
+	max-width: 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	position: relative;
+	font-size: 1.2em;
+
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: -0.25em;
+		left: 0;
+		width: 0;
+		height: 0.125em;
+		background-color: var(--txt-primary);
+		transition: width 0.2s ease;
+	}
+
+	&:hover {
+		color: var(--txt-primary);
+
+		&::after {
+			width: 100%;
+		}
+	}
+
+	&.active {
+		color: var(--txt-primary);
+
+		&::after {
+			width: 100%;
+		}
+	}
 }
 
 .menuToggle {
@@ -116,131 +116,43 @@
 	}
 }
 
-@media screen and (min-width: $app-tablet) {
-	.menuToggle {
-		display: none;
-	}
-}
-
-@media screen and (max-width: $app-tablet) {
-	.headerRight {
-		display: flex;
-		gap: 0.4em;
-	}
-	.headerLeft {
-		gap: 0.5em;
-	}
-}
-
-@media screen and (min-width: $app-tablet) {
-	.navDesktop {
-		display: block;
-	}
-	.navMobile {
-		display: none;
-		z-index: 200;
-	}
-}
-
-.logo {
+.profileButton {
 	display: flex;
-}
-
-.navbarContainer {
-	display: flex;
-	flex-direction: row;
 	align-items: center;
-	justify-content: center;
-	gap: 2em;
+
+	font-size: 1em;
+	gap: 0.6em;
 }
 
-.container {
-	gap: 1.5em;
+.info {
 	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	border: var(--color-white);
+	flex-direction: column;
+	align-items: flex-end;
 }
 
-.navItem {
-	color: var(--txt-primary);
-	font-family: var(--font-family);
-	max-width: 100%;
-	-webkit-background-clip: text;
-	background-clip: text;
-	position: relative;
-	font-size: 1.2em;
+.authButtons {
+	display: flex;
+	gap: 0.5em;
 
-	&::after {
-		content: '';
-		position: absolute;
-		bottom: -0.25em;
-		left: 0;
-		width: 0;
-		height: 0.125em;
-		background-color: var(--txt-primary);
-		transition: width 0.2s ease;
+	a {
+		text-decoration: none;
+		font-size: 0.95em;
+		padding: 0.5em 0.9em;
+		border-radius: var(--border-radius-lg);
+		font-weight: var(--font-medium);
+		transition: background-color 0.25s, color 0.25s, border-color 0.25s;
 	}
+}
+
+.buttonGhost,
+.buttonPrimary {
+	background-color: var(--color-primary);
+	color: var(--txt-white);
+	border: 0.0625em solid var(--color-primary);
 
 	&:hover {
-		color: var(--txt-primary);
-	}
-
-	&:hover::after {
-		width: 100%;
-	}
-
-	&.active {
-		color: var(--txt-primary);
-
-		&::after {
-			width: 100%;
-		}
-	}
-}
-
-@media (max-width: $app-tablet) {
-	.navbar {
-		border-top: 0.0625em solid var(--txt-primary);
-		border-bottom: 0.0625em solid var(--txt-primary);
-		border-bottom: 1px solid var(--txt-primary);
-		opacity: 0.8;
-	}
-
-	.navbarContainer {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: start;
-		gap: 0;
-	}
-	.navBlock {
-		width: 100%;
-		.navItem {
-			font-size: 1em;
-			font-family: var(--font-family);
-			display: block;
-			padding: 0.4em 0em;
-			transition: color 0.3s ease;
-			width: 100%;
-			text-decoration: none;
-
-			&::after {
-				display: none;
-			}
-
-			&:hover {
-				color: var(--txt-accent);
-			}
-
-			&.active {
-				color: var(--txt-primary);
-
-				&:hover {
-					color: var(--txt-accent);
-				}
-			}
-		}
+		background-color: var(--color-primary-white);
+		border-color: var(--color-primary-white);
 	}
 }
 
@@ -289,4 +201,81 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 8em;
+}
+
+/* ===============================
+  Media Queries
+================================= */
+@media screen and (min-width: $app-tablet) {
+	.menuToggle {
+		display: none;
+	}
+
+	.navDesktop {
+		display: block;
+	}
+
+	.navMobile {
+		display: none;
+		z-index: 200;
+	}
+}
+
+@media screen and (max-width: $app-tablet) {
+	.headerRight {
+		display: flex;
+		gap: 0.4em;
+	}
+
+	.headerLeft {
+		gap: 0.5em;
+	}
+
+	.info {
+		display: none;
+	}
+
+	.navbar {
+		border-top: 0.0625em solid var(--txt-primary);
+		border-bottom: 0.0625em solid var(--txt-primary);
+		opacity: 0.8;
+	}
+
+	.navbarContainer {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
+		gap: 0;
+	}
+
+	.navBlock {
+		width: 100%;
+
+		.navItem {
+			font-size: 1em;
+			font-family: var(--font-family);
+			display: block;
+			padding: 0.4em 0em;
+			transition: color 0.3s ease;
+			width: 100%;
+			text-decoration: none;
+
+			&::after {
+				display: none;
+			}
+
+			&:hover {
+				color: var(--txt-accent);
+			}
+
+			&.active {
+				color: var(--txt-primary);
+
+				&:hover {
+					color: var(--txt-accent);
+				}
+			}
+		}
+	}
 }

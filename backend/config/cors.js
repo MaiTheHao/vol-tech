@@ -10,7 +10,6 @@ const allowCredentials = env.CORS_CREDENTIALS;
 
 export function cors(req, res, next) {
 	const origin = req.headers.origin;
-
 	if (allowedOrigins.includes('*')) {
 		res.header('Access-Control-Allow-Origin', '*');
 	} else if (origin && allowedOrigins.includes(origin)) {

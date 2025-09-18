@@ -36,7 +36,6 @@ export default function Register() {
 		e.preventDefault();
 		const { name, email, birthDate, unit, phone, password, confirmPassword } = values;
 
-		// Create an errors object for field-specific validation
 		const fieldErrors = {};
 		let hasErrors = false;
 
@@ -84,11 +83,12 @@ export default function Register() {
 		}
 
 		setError(null);
-		const res = await register({ name, email, password, birthDate, unit, phone });
-		if (res?.message) {
+		const data = await register({ name, email, password, birthDate, unit, phone });
+
+		if (data?.message) {
 			navigate('/login');
 		} else {
-			setError(res?.error || 'Đăng ký thất bại');
+			setError(data?.error || 'Đăng ký thất bại');
 		}
 	};
 

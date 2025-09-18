@@ -26,11 +26,14 @@ const AuthContextProvider = ({ children }) => {
 		setLoading(true);
 		try {
 			const res = await getMe(tk);
-			setUser(res || null);
-		} catch {
+			if (!res.ok) throw new Error('Không thể lấy thông tin người dùng');
+			const user = await res.json();
+			setUser(user || null);
+		} catch (err) {
 			setUser(null);
+		} finally {
+			setLoading(false);
 		}
-		setLoading(false);
 	}, []);
 
 	useEffect(() => {
@@ -46,52 +49,71 @@ const AuthContextProvider = ({ children }) => {
 	const login = useCallback(
 		async (email, password) => {
 			setLoading(true);
-			const res = await loginApi(email, password);
-			if (res?.accessToken) {
-				setToken(res.accessToken);
-				await fetchUser(res.accessToken);
+			try {
+				const res = await loginApi(email, password);
+				const data = await res.json();
+				if (data?.accessToken) {
+					setToken(data.accessToken);
+					await fetchUser(data.accessToken);
+				}
+				return data;
+			} catch (err) {
+				return { error: err.message || 'Đăng nhập thất bại' };
+			} finally {
 				setLoading(false);
-				return true;
 			}
-			setLoading(false);
-			return false;
 		},
 		[setToken, fetchUser]
 	);
 
-	const register = useCallback(async (data) => {
+	const register = useCallback(async ({ name, email, password, birthDate, unit, phone }) => {
 		setLoading(true);
-		const res = await registerApi(data);
-		setLoading(false);
-		return res;
+		try {
+			const res = await registerApi({ name, email, password, birthDate, unit, phone });
+			const data = await res.json();
+			return data;
+		} catch (err) {
+			return { error: err.message || 'Đăng ký thất bại' };
+		} finally {
+			setLoading(false);
+		}
 	}, []);
 
 	const logout = useCallback(async () => {
 		setLoading(true);
-		await logoutApi();
-		setToken(null);
-		setUser(null);
-		setLoading(false);
+		try {
+			await logoutApi();
+			setToken(null);
+			setUser(null);
+		} catch (err) {
+			// handle error if needed
+		} finally {
+			setLoading(false);
+		}
 	}, [setToken]);
 
 	const refreshToken = useCallback(async () => {
 		setLoading(true);
-		const res = await refreshTokenApi();
-		if (res?.accessToken) {
-			setToken(res.accessToken);
-			await fetchUser(res.accessToken);
+		try {
+			const res = await refreshTokenApi();
+			if (res?.accessToken) {
+				setToken(res.accessToken);
+				await fetchUser(res.accessToken);
+				return true;
+			}
+			return false;
+		} catch (err) {
+			return false;
+		} finally {
 			setLoading(false);
-			return true;
 		}
-		setLoading(false);
-		return false;
 	}, [setToken, fetchUser]);
 
 	const value = {
 		token,
 		user,
 		loading,
-		isAuth: !!token,
+		isAuth: !!token && !!user,
 		setToken,
 		setUser,
 		login,

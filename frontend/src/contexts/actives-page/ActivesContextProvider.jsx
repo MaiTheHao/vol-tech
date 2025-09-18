@@ -19,19 +19,27 @@ export default function ActivesContextProvider({ children }) {
 
 	useEffect(() => {
 		setLoading(true);
-		getList(query).then(async (res) => {
-			const { items, paginate } = await res.json();
-			if (res.ok) {
-				const arr = Array.isArray(items) ? items : [];
-				setActivities(arr);
-				setTotalPages(paginate.totalPages || 1);
-				setError('');
-			} else {
-				setError(error || 'Có lỗi xảy ra');
+		const fetchActivities = async () => {
+			try {
+				const res = await getList(query);
+				const { items, paginate } = await res.json();
+				if (res.ok) {
+					const arr = Array.isArray(items) ? items : [];
+					setActivities(arr);
+					setTotalPages(paginate.totalPages || 1);
+					setError('');
+				} else {
+					setError('Có lỗi xảy ra');
+					setActivities([]);
+				}
+			} catch (err) {
+				setError('Có lỗi xảy ra');
 				setActivities([]);
+			} finally {
+				setLoading(false);
 			}
-			setLoading(false);
-		});
+		};
+		fetchActivities();
 	}, [query]);
 
 	const updateQuery = (patch) => {

@@ -26,6 +26,18 @@ class ActiveRepository extends BaseRepository {
 		return queryBuilder.exec();
 	}
 
+	async findByIdWithReference(id, projection = {}, options = {}, hasCommune, hasCreator) {
+		if (!id) throw new Error('ID is required');
+		let queryBuilder = this._model.findById(id, projection, options);
+		if (hasCommune) {
+			queryBuilder = queryBuilder.populate('commune');
+		}
+		if (hasCreator) {
+			queryBuilder = queryBuilder.populate('createdBy', 'name email avatar');
+		}
+		return queryBuilder.exec();
+	}
+
 	async findByStatus(status, projection = {}, options = {}) {
 		return this.find({ status }, projection, options);
 	}

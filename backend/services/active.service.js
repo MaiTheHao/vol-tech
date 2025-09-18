@@ -15,10 +15,10 @@ class ActiveService {
 		}
 	}
 
-	async getById(id, projection = {}, options = {}) {
+	async getById(id, projection = {}, options = {}, hasCommune = true, hasCreator = true) {
 		try {
 			if (isEmpty(id)) return [ErrorResult(400, 'Thiếu ID hoạt động')];
-			const active = await activeRepository.findById(id, projection, options);
+			const active = await activeRepository.findByIdWithReference(id, projection, options, hasCommune, hasCreator);
 			if (!active) return [ErrorResult(404, 'Không tìm thấy hoạt động')];
 			return [null, active];
 		} catch (error) {

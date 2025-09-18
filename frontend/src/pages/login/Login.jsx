@@ -41,12 +41,12 @@ export default function Login() {
 		}
 
 		setError(null);
-		const success = await login(values.email, values.password);
+		const data = await login(values.email, values.password);
 
-		if (!success) {
-			setError('Email hoặc mật khẩu không đúng');
+		if (data?.error) {
+			setError(data.error || 'Đăng nhập thất bại');
 		} else {
-			navigate('/');
+			navigate('/home');
 		}
 	};
 

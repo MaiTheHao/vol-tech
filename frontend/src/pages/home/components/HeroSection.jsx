@@ -2,7 +2,7 @@ import { ArrowRight, Heart, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import styles from './HeroSection.module.scss';
 import { ROUTES } from '../../../const/index.js';
-import Button, { BUTTON_VARIANTS } from '../../../components/shared/button/Button';
+import Button, { BUTTON_AS, BUTTON_VARIANTS } from '../../../components/shared/button/Button';
 import AppSection from '../../../components/shared/app-section/AppSection';
 
 export function HeroSection() {
@@ -20,10 +20,10 @@ export function HeroSection() {
 
 				{/* Buttons */}
 				<div className={styles.actions}>
-					<Button as='a' href={ROUTES.ACTIVE.path} variant={BUTTON_VARIANTS.ACCENT} icon={<ArrowRight />}>
+					<Button as={BUTTON_AS.LINK} to={ROUTES.ACTIVE.path} variant={BUTTON_VARIANTS.ACCENT} icon={<ArrowRight />}>
 						Khám phá hoạt động
 					</Button>
-					<Button as='a' href={ROUTES.ABOUT.path} variant={BUTTON_VARIANTS.SECONDARY}>
+					<Button as={BUTTON_AS.LINK} to={ROUTES.ABOUT.path} variant={BUTTON_VARIANTS.SECONDARY}>
 						Tìm hiểu thêm
 					</Button>
 				</div>

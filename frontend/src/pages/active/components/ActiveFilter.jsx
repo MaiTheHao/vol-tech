@@ -28,7 +28,6 @@ export default function ActiveFilter() {
 	const [loadingProvinces, setLoadingProvinces] = useState(false);
 	const [loadingCommunes, setLoadingCommunes] = useState(false);
 
-	// Load provinces on component mount
 	useEffect(() => {
 		const loadProvinces = async () => {
 			setLoadingProvinces(true);
