@@ -34,7 +34,7 @@ export default function ActiveDetailPage() {
 					setError('Không tìm thấy hoạt động');
 					setData(null);
 				}
-			} catch (err) {
+			} catch{
 				setError('Đã xảy ra lỗi khi tải dữ liệu');
 				setData(null);
 			} finally {

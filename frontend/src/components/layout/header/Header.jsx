@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './header.module.scss';
 import Navbar from './components/Navbar';
-import Profile from './components/Profile';
+import Profile from './components/ProfileButton.jsx';
 import LogoBlue from '../../../assets/logos/Logo-VOLTECH--Blue.svg';
 import { ROUTES } from '../../../const';
 import useAuthContext from '../../../contexts/auth/useAuthContext.jsx';
@@ -48,7 +48,7 @@ export default function Header() {
 			</div>
 			{menuOpen && (
 				<div className={styles.navMobile}>
-					<Navbar />
+					<Navbar onItemClick={() => setMenuOpen(false)}/>
 				</div>
 			)}
 		</header>

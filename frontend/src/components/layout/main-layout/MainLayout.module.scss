@@ -1,0 +1,21 @@
+@use '../../../styles/vars.scss' as *;
+
+.layoutWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.headerWrapper {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: var(--color-white);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mainContent {
+  flex: 1;
+}

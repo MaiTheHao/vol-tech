@@ -44,11 +44,9 @@
 	border: none;
 	border-radius: var(--border-radius-xl);
 	overflow: hidden;
-
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-
 	background-color: var(--color-white);
 	box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.1);
 	transition: box-shadow 0.3s ease;

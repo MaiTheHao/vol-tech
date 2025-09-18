@@ -13,25 +13,25 @@ export default function AboutPage() {
 
 			<div className={styles.infoGrid}>
 				<div className={styles.enterpriseInfo}>
-					<h3 className={styles.sectionTitle}>Thông tin công ty</h3>
+					<h3 className={styles.sectionTitle}>Thông tin liên hệ</h3>
 					<div className={styles.infoItem}>
 						<Building2 size={22} className={`${styles.icon} ${styles.iconPrimary}`} />
-						<span>Công ty TNHH VolTech</span>
+						<span>THPT Huỳnh Văn Nghệ</span>
 					</div>
 					<div className={styles.infoItem}>
 						<MapPin size={22} className={`${styles.icon} ${styles.iconAccent}`} />
-						<span>123 Đường Tình Nguyện, Quận 1, TP.HCM</span>
+						<span>Khu phố Uyên Hưng 4, Phường Tân Uyên, Thành phố Hồ Chí Minh</span>
 					</div>
 					<div className={styles.infoItem}>
 						<Phone size={22} className={`${styles.icon} ${styles.iconPrimary}`} />
-						<span>0123 456 789</span>
+						<span>0397 366 219</span>
 					</div>
 					<div className={styles.infoItem}>
 						<Mail size={22} className={`${styles.icon} ${styles.iconAccent}`} />
-						<span>contact@voltech.vn</span>
-					</div>
+						<span>tanviett2009@gmail.com</span>
+					</div>  
 					<div className={styles.infoItem}>
-						<span role='img' aria-label='Vietnam Flag' style={{ fontSize: 22, marginRight: 8 }}>
+						<span role='img' aria-label='Vietnam Flag' style={{ fontSize: 22 }}>
 							🇻🇳
 						</span>
 						<span>Việt Nam</span>

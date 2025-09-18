@@ -1,13 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import styles from '../header.module.scss';
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { ROUTES } from '../../../../const/index.js';
 
-export default function Navbar() {
-	const [menuOpen, setMenuOpen] = useState(false);
-
+export default function Navbar({ onItemClick = () => {} }) {
 	const handleToTop = () => {
-		setMenuOpen(false);
+		onItemClick();
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	};
 
@@ -23,11 +21,16 @@ export default function Navbar() {
 	return (
 		<nav className={styles.navbar}>
 			<div className={styles.navbarContainer}>
-				{navRoutes.map((route, idx) => (
+				{navRoutes.map((route) => (
 					<div className={styles.navBlock} key={route.path}>
-						<NavLink to={route.path} className={({ isActive }) => (isActive ? `${styles.navItem} ${styles.active}` : styles.navItem)} onClick={handleToTop}>
+						<NavLink
+							to={route.path}
+							className={({ isActive }) =>
+								isActive ? `${styles.navItem} ${styles.active}` : styles.navItem
+							}
+							onClick={handleToTop}
+						>
 							{route.label}
-							{idx === 0 && <div className={`${styles.navDesktop} ${menuOpen ? styles.show : ''}`}></div>}
 						</NavLink>
 					</div>
 				))}

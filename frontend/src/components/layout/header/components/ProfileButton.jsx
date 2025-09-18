@@ -7,6 +7,9 @@ export default function Profile({ user, loading }) {
 	const pointText = user?.score ?? 0;
 	return (
 		<>
+			<div className={styles.avatar}>
+				<img src={avatarSrc} alt={user?.name || 'Loading'} />
+			</div>
 			<div className={styles.info}>
 				<div className={styles.username}>{loading ? 'Đang tải...' : user?.name || 'Người dùng'}</div>
 				<div className={styles.rank}>
@@ -15,9 +18,6 @@ export default function Profile({ user, loading }) {
 						<img src={RankIcon} alt={pointText} />
 					</div>
 				</div>
-			</div>
-			<div className={styles.avatar}>
-				<img src={avatarSrc} alt={user?.name || 'Loading'} />
 			</div>
 		</>
 	);

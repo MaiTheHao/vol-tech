@@ -30,9 +30,9 @@
 	grid-template-columns: 1fr;
 	gap: 2em;
 
-	@media (min-width: $app-tablet) {
-		grid-template-columns: repeat(2, 1fr);
-	}
+	// @media (min-width: $app-tablet) {
+	// 	grid-template-columns: repeat(2, 1fr);
+	// }
 
 	@media (min-width: $app-desktop) {
 		grid-template-columns: repeat(3, 1fr);
