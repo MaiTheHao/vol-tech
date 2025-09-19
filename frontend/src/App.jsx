@@ -4,6 +4,7 @@ import MainLayout from './components/layout/main-layout/MainLayout.jsx';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Home from './pages/home/Home.jsx';
+import Profile from './pages/profile/Profile.jsx';
 import AuthContextProvider from './contexts/auth/AuthContextProvider.jsx';
 import { ROUTES } from './const/index.js';
 import AlignCenterLayout from './components/layout/align-center-layout/AlignCenterLayout.jsx';
@@ -22,6 +23,7 @@ const App = () => {
 					<Route path={ROUTES.ACTIVE.path} element={<ActivePage />} />
 					<Route path={ROUTES.ACTIVE.withId(':id')} element={<ActiveDetailPage />} />
 					<Route path={ROUTES.ABOUT.path} element={<AboutPage />} />
+					<Route path={ROUTES.PROFILE.path} element={<Profile />} />
 				</Route>
 				<Route element={<AlignCenterLayout />}>
 					<Route path={ROUTES.LOGIN.path} element={<Login />} />

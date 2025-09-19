@@ -1,13 +1,20 @@
 import Header from '../header/Header';
 import Footer from '../footer/Footer';
 import { Outlet } from 'react-router-dom';
+import styles from './MainLayout.module.scss';
 
 export default function MainLayout() {
-	return (
-		<div>
-			<Header />
-			<Outlet />
-			<Footer />
-		</div>
-	);
+  return (
+    <div className={styles.layoutWrapper}>
+      <div className={styles.headerWrapper}>
+        <Header />
+      </div>
+
+      <main className={styles.mainContent}>
+        <Outlet />
+      </main>
+
+      <Footer />
+    </div>
+  );
 }
