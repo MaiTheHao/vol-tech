@@ -4,7 +4,6 @@ import LocalStorageService, { LOCAL_STORAGE_KEYS } from '../../services/storage/
 import { login as loginApi, register as registerApi, logout as logoutApi, refreshToken as refreshTokenApi } from '../../services/api/v1/auth-api.service.js';
 import { getMe } from '../../services/api/v1/user-api.service.js';
 
-
 const AuthContextProvider = ({ children }) => {
 	const [token, setTokenState] = useState(() => LocalStorageService.get(LOCAL_STORAGE_KEYS.ACCESS_TOKEN));
 	const [user, setUser] = useState(null);
@@ -110,7 +109,6 @@ const AuthContextProvider = ({ children }) => {
 		}
 	}, [setToken, fetchUser]);
 
-
 	const value = {
 		token,
 		user,
@@ -122,12 +120,9 @@ const AuthContextProvider = ({ children }) => {
 		register,
 		logout,
 		refreshToken,
-
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-
 
 export default AuthContextProvider;

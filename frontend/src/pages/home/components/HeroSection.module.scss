@@ -3,7 +3,6 @@
 .heroSection {
 	background-color: var(--color-primary);
 	color: var(--txt-white);
-	margin-top: 4.5em;
 	padding: 5em 0;
 
 	@media (min-width: $app-desktop) {
@@ -23,7 +22,7 @@
 	font-size: clamp(2em, 5vw, 3.75em);
 	font-weight: var(--font-bold);
 	line-height: 1.2;
-	color: var(--txt-white)
+	color: var(--txt-white);
 }
 
 .accent {

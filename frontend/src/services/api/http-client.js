@@ -1,4 +1,5 @@
 import APP_CONFIG from '../../../config.js';
+import LocalStorageService, { LOCAL_STORAGE_KEYS } from '../storage/local-storage.service.js';
 
 const defaultHeaders = {
 	'Content-Type': 'application/json',
@@ -6,6 +7,10 @@ const defaultHeaders = {
 
 const request = (method, path = '', body = null, headers = {}) => {
 	const url = APP_CONFIG.api.getFullPath(path);
+	const token = LocalStorageService.get(LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
+	if (token) {
+		headers['Authorization'] = `Bearer ${token}`;
+	}
 	const options = {
 		method,
 		headers: { ...defaultHeaders, ...headers },

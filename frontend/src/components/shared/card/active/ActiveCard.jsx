@@ -7,6 +7,10 @@ import styles from './ActiveCard.module.scss';
 import { ROUTES } from '../../../../const';
 import { ACTIVE_STATUS_VIETNAMESE } from '../../../../const/active-status';
 
+function isFull(activity) {
+	return (activity.registeredUsers?.length || 0) >= activity.maxParticipants;
+}
+
 export default function ActiveCard({ activity, showCreator = false, className = '', ...props }) {
 	const [imgError, setImgError] = React.useState(false);
 
@@ -18,6 +22,11 @@ export default function ActiveCard({ activity, showCreator = false, className = 
 				<div className={styles.badges}>
 					<Badge className={styles.badge}>{ACTIVE_STATUS_VIETNAMESE[activity.status] || activity.status}</Badge>
 					<Badge className={styles.badge}>+{activity.points} điểm</Badge>
+					{isFull(activity) && (
+						<Badge className={styles.badge} color='red'>
+							Đã đầy
+						</Badge>
+					)}
 				</div>
 			</div>
 			<CardContent className={styles.cardContent}>
@@ -35,6 +44,7 @@ export default function ActiveCard({ activity, showCreator = false, className = 
 						<Users className={styles.icon} />
 						<span>
 							{activity.registeredUsers?.length || 0}/{activity.maxParticipants} người tham gia
+							{isFull(activity) && <span className={styles.fullLabel}> (Đã đầy)</span>}
 						</span>
 					</div>
 					{showCreator && activity.createdBy?.name && (

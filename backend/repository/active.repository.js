@@ -62,11 +62,18 @@ class ActiveRepository extends BaseRepository {
 	}
 
 	async addRegisteredUser(activeId, userId) {
-		return this._model.findByIdAndUpdate(activeId, { $addToSet: { registeredUsers: userId } }, { new: true }).exec();
+		const active = await this._model.findById(activeId).exec();
+		if (!active) throw new Error('Không tìm thấy hoạt động');
+		if (this.isFull(active)) throw new Error('Hoạt động đã đầy');
+		return this._model.findOneAndUpdate({ _id: activeId }, { $addToSet: { registeredUsers: userId } }, { new: true }).exec();
 	}
 
 	async removeRegisteredUser(activeId, userId) {
 		return this._model.findByIdAndUpdate(activeId, { $pull: { registeredUsers: userId } }, { new: true }).exec();
+	}
+
+	isFull(active) {
+		return (active.registeredUsers?.length || 0) >= active.maxParticipants;
 	}
 }
 

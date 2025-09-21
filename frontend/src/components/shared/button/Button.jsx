@@ -14,7 +14,6 @@ export const BUTTON_AS = {
 	LINK: 'a',
 };
 
-// icon prop có thể là lucide-react component
 function Button({ children, variant = BUTTON_VARIANTS.PRIMARY, outlined = false, fillWidth = false, disabled = false, icon, className = '', as = BUTTON_AS.BUTTON, ...props }) {
 	const classes = [styles.btn, styles[variant], outlined ? styles.outlined : styles.filled, disabled ? styles.disabled : '', fillWidth ? styles.fillWidth : '', className].join(' ');
 
@@ -50,4 +49,3 @@ Button.propTypes = {
 };
 
 export default Button;
-// Không cần thay đổi, Button đã hỗ trợ disabled và children động.

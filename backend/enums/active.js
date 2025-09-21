@@ -3,4 +3,5 @@ export const ACTIVE_STATUS = {
 	OPEN: 'open',
 	COMPLETED: 'completed',
 	CANCELLED: 'cancelled',
+	FULL: 'full',
 };

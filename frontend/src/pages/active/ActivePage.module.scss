@@ -1,7 +1,6 @@
 @use '../../styles/vars.scss' as *;
 
 .activeSection {
-	margin-top: 4.5em;
 	padding: 3em 0;
 
 	@media (min-width: $app-tablet) {

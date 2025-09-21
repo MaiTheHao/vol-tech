@@ -1,5 +1,5 @@
 import { withApiCache } from '../api-caching.service.js';
-import { httpGet } from '../http-client.js';
+import { httpDelete, httpGet, httpPost } from '../http-client.js';
 
 export const getList = ({ title, status, commune, createdBy, sortBy, sortOrder, page, limit }) => {
 	const query = {};
@@ -23,4 +23,12 @@ export const getList = ({ title, status, commune, createdBy, sortBy, sortOrder, 
 export const getDetail = (id) => {
 	const key = `active_detail_${id}`;
 	return withApiCache(key, httpGet, `/active/${id}`);
+};
+
+export const joinActive = (id) => {
+	return httpPost(`/active/${id}/participants`);
+};
+
+export const leaveActive = (id) => {
+	return httpDelete(`/active/${id}/participants`);
 };

@@ -82,3 +82,45 @@ export async function getById(req, res) {
 		return sendErrorResponse(res, 500, 'Lỗi máy chủ nội bộ');
 	}
 }
+
+// POST /active/:id/participants
+export async function join(req, res) {
+	try {
+		const { id } = req.params;
+		const userId = req.user.uid;
+
+		if (isEmpty(id)) {
+			return sendErrorResponse(res, 400, 'Thiếu id');
+		}
+
+		const [err, active] = await activeService.addRegisteredUser(id, userId);
+		if (err) return sendErrorResponse(res, err.code || 404, err.message);
+		if (!active) return sendErrorResponse(res, 404, 'Không tìm thấy hoạt động');
+
+		return sendJsonResponse(res, 200, 'Tham gia hoạt động thành công');
+	} catch (error) {
+		console.error(error);
+		return sendErrorResponse(res, 500, 'Lỗi máy chủ nội bộ');
+	}
+}
+
+// DELETE /active/:id/participants
+export async function leave(req, res) {
+	try {
+		const { id } = req.params;
+		const userId = req.user.uid;
+
+		if (isEmpty(id) || isEmpty(userId)) {
+			return sendErrorResponse(res, 400, 'Thiếu id hoặc userId');
+		}
+
+		const [err, active] = await activeService.removeRegisteredUser(id, userId);
+		if (err) return sendErrorResponse(res, err.code || 404, err.message);
+		if (!active) return sendErrorResponse(res, 404, 'Không tìm thấy hoạt động');
+
+		return sendJsonResponse(res, 200, 'Rời khỏi hoạt động thành công');
+	} catch (error) {
+		console.error(error);
+		return sendErrorResponse(res, 500, 'Lỗi máy chủ nội bộ');
+	}
+}

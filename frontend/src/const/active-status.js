@@ -3,6 +3,7 @@ export const ACTIVE_STATUS = {
 	OPEN: 'open',
 	COMPLETED: 'completed',
 	CANCELLED: 'cancelled',
+	FULL: 'full',
 };
 
 export const ACTIVE_STATUS_VIETNAMESE = {
@@ -10,6 +11,7 @@ export const ACTIVE_STATUS_VIETNAMESE = {
 	open: 'Đang mở',
 	completed: 'Hoàn thành',
 	cancelled: 'Đã hủy',
+	full: 'Đầy',
 };
 
 export const ACTIVE_STATUS_VALUE_TO_KEY = {
@@ -17,4 +19,5 @@ export const ACTIVE_STATUS_VALUE_TO_KEY = {
 	open: 'OPEN',
 	completed: 'COMPLETED',
 	cancelled: 'CANCELLED',
+	full: 'FULL',
 };
