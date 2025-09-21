@@ -4,7 +4,7 @@ import styles from './header.module.scss';
 import Navbar from './components/Navbar';
 import Profile from './components/ProfileButton.jsx';
 import LogoBlue from '../../../assets/logos/Logo-VOLTECH--Blue.svg';
-import { ROUTES } from '../../../const';
+import { ROUTES } from '../../../const/route.js';
 import useAuthContext from '../../../contexts/auth/useAuthContext.jsx';
 
 export default function Header() {
@@ -48,7 +48,7 @@ export default function Header() {
 			</div>
 			{menuOpen && (
 				<div className={styles.navMobile}>
-					<Navbar onItemClick={() => setMenuOpen(false)}/>
+					<Navbar onItemClick={() => setMenuOpen(false)} />
 				</div>
 			)}
 		</header>

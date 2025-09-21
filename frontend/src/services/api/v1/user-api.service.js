@@ -1,4 +1,11 @@
 import { withApiCache } from '../api-caching.service.js';
-import { httpGet } from '../http-client.js';
+import { httpGet, httpPatch } from '../http-client.js';
 
-export const getMe = (token) => withApiCache(`me_${token}`, httpGet, '/user/me', { Authorization: `Bearer ${token}` });
+export const getMe = () => {
+	const cacheKey = 'user_me';
+	return withApiCache(cacheKey, httpGet, '/user/me');
+};
+
+export const updateProfile = (id, data) => {
+	return httpPatch(`/user/${id}`, data);
+};

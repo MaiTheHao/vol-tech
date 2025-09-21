@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import { MapPin, CalendarClock, Users, Home, Award, MapPinHouse } from 'lucide-react';
 
 import AppSection from '../../components/shared/app-section/AppSection';
+import LoadingSection from '../../components/shared/loading-section/LoadingSection.jsx';
 import Button, { BUTTON_VARIANTS } from '../../components/shared/button/Button';
 import { Badge, BADGE_SIZES, BADGE_VARIANTS } from '../../components/shared/badge/Badge';
 import useAuthContext from '../../contexts/auth/useAuthContext';
@@ -101,11 +102,7 @@ export default function ActiveDetailPage() {
 	};
 
 	if (loading) {
-		return (
-			<AppSection>
-				<div className={styles.loading}>Đang tải...</div>
-			</AppSection>
-		);
+		return <LoadingSection message='Đang tải thông tin hoạt động...' />;
 	}
 
 	if (error) {

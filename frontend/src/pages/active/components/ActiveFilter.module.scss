@@ -43,3 +43,20 @@
 		opacity: 0.6;
 	}
 }
+
+.checkboxLabel {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	font-size: 1em;
+	cursor: pointer;
+	user-select: none;
+}
+
+.checkbox {
+	width: 1.2em;
+	height: 1.2em;
+	margin: 0;
+	accent-color: var(--primary);
+	cursor: pointer;
+}

@@ -32,8 +32,6 @@ export const withApiCache = (key, promise, ...args) => {
 	if (hasApiCache(key)) return getApiCache(key);
 	return setApiCache(
 		key,
-		promise(...args).finally(() => {
-			removeApiCache(key);
-		})
+		promise(...args).finally(() => removeApiCache(key))
 	);
 };

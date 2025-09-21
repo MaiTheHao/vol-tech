@@ -22,6 +22,7 @@ export default function ActiveFilter() {
 	const [commune, setCommune] = useState('');
 	const [sortBy, setSortBy] = useState('');
 	const [sortOrder, setSortOrder] = useState('');
+	const [joined, setJoined] = useState(false);
 
 	const [provinces, setProvinces] = useState([]);
 	const [communes, setCommunes] = useState([]);
@@ -33,7 +34,7 @@ export default function ActiveFilter() {
 			setLoadingProvinces(true);
 			try {
 				const response = await getProvinces({ page: 1, limit: 100 });
-				const { items, paginate } = await response.json();
+				const { items } = await response.json();
 				if (response.ok && items) {
 					setProvinces(items);
 				}
@@ -53,7 +54,7 @@ export default function ActiveFilter() {
 				setLoadingCommunes(true);
 				try {
 					const response = await getCommunes({ province: selectedProvince, page: 1, limit: 100 });
-					const { items, paginate } = await response.json();
+					const { items } = await response.json();
 					if (response.ok && items) {
 						setCommunes(items);
 					}
@@ -78,7 +79,7 @@ export default function ActiveFilter() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		updateQuery({ title, status, commune, sortBy, sortOrder });
+		updateQuery({ title, status, commune, sortBy, sortOrder, joined });
 	};
 
 	const handleSortChange = (e) => {
@@ -90,7 +91,7 @@ export default function ActiveFilter() {
 
 	return (
 		<form className={styles.filterForm} onSubmit={handleSubmit}>
-			<input type='text' className={styles.input} placeholder='Tìm kiếm hoạt động...' value={title} onChange={(e) => setTitle(e.target.value)} />
+			<input type='text' className={styles.input} placeholder='Tìm kiếm theo tiêu đề...' value={title} onChange={(e) => setTitle(e.target.value)} />
 			<select className={styles.select} value={status} onChange={(e) => setStatus(e.target.value)}>
 				<option value=''>Tất cả trạng thái</option>
 				<option value={ACTIVE_STATUS.OPEN}>Đang mở</option>
@@ -121,6 +122,10 @@ export default function ActiveFilter() {
 					</option>
 				))}
 			</select>
+			<label className={styles.checkboxLabel}>
+				<input type='checkbox' checked={joined} onChange={() => setJoined(!joined)} className={styles.checkbox} />
+				<span>Bạn đã tham gia</span>
+			</label>
 			<Button type='submit' variant='primary'>
 				Lọc
 			</Button>

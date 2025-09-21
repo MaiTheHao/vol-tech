@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from './footer.module.scss';
 import LogoBlue from '../../../assets/logos/Logo-VOLTECH--Blue.svg';
-import { ROUTES } from '../../../const';
+import { ROUTES } from '../../../const/route.js';
 
 export default function Footer() {
 	const handleClick = () => {

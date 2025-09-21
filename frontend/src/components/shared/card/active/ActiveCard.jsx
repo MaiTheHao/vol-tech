@@ -4,7 +4,7 @@ import { Badge } from '../../badge/Badge';
 import Button, { BUTTON_AS } from '../../button/Button';
 import { Calendar, MapPin, Users } from 'lucide-react';
 import styles from './ActiveCard.module.scss';
-import { ROUTES } from '../../../../const';
+import { ROUTES } from '../../../../const/route.js';
 import { ACTIVE_STATUS_VIETNAMESE } from '../../../../const/active-status';
 
 function isFull(activity) {
@@ -38,7 +38,10 @@ export default function ActiveCard({ activity, showCreator = false, className = 
 					</div>
 					<div className={styles.detailItem}>
 						<Calendar className={styles.icon} />
-						<span>{activity.startDate ? new Date(activity.startDate).toLocaleDateString('vi-VN') : ''}</span>
+						<span>
+							{activity.startDate ? new Date(activity.startDate).toLocaleDateString('vi-VN') : ''}
+							{activity.endDate ? ' - ' + new Date(activity.endDate).toLocaleDateString('vi-VN') : ''}
+						</span>
 					</div>
 					<div className={styles.detailItem}>
 						<Users className={styles.icon} />

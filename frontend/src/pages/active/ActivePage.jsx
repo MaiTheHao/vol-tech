@@ -8,7 +8,7 @@ import ActiveFilter from './components/ActiveFilter';
 import ActivePagination from './components/ActivePagination';
 
 function ActivePageContent() {
-	const { activities, loading, totalPages, setPage } = useActivesContext();
+	const { activities, loading } = useActivesContext();
 
 	return (
 		<AppSection className={styles.activeSection}>

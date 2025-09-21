@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthForm from '../../components/auth-form/AuthForm.jsx';
 import useAuthContext from '../../contexts/auth/useAuthContext.jsx';
+import { ROUTES } from '../../const/route.js';
 
 const fields = [
 	{ name: 'name', label: 'Tên người dùng', type: 'text', placeholder: 'Nhập tên người dùng' },
@@ -86,7 +87,7 @@ export default function Register() {
 		const data = await register({ name, email, password, birthDate, unit, phone });
 
 		if (data?.message) {
-			navigate('/login');
+			navigate(ROUTES.LOGIN.path);
 		} else {
 			setError(data?.error || 'Đăng ký thất bại');
 		}
@@ -96,7 +97,7 @@ export default function Register() {
 		<AuthForm title='Đăng kí' fields={fields} values={values} onChange={handleChange} onSubmit={handleSubmit} loading={loading} error={error} submitText='Đăng kí'>
 			<p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: 'var(--txt-secondary)', textAlign: 'center' }}>
 				Đã có tài khoản?{' '}
-				<Link to='/login' style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
+				<Link to={ROUTES.LOGIN.path} style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
 					Đăng nhập
 				</Link>
 			</p>

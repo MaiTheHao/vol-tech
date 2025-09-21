@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthForm from '../../components/auth-form/AuthForm.jsx';
 import useAuthContext from '../../contexts/auth/useAuthContext.jsx';
+import { ROUTES } from '../../const/route.js';
 
 const fields = [
 	{ name: 'email', label: 'Email', type: 'email', placeholder: 'Nhập email' },
@@ -46,15 +47,15 @@ export default function Login() {
 		if (data?.error) {
 			setError(data.error || 'Đăng nhập thất bại');
 		} else {
-			navigate('/home');
+			navigate(ROUTES.HOME.path);
 		}
 	};
 
 	return (
 		<AuthForm title='Đăng nhập' fields={fields} values={values} onChange={handleChange} onSubmit={handleSubmit} loading={loading} error={error} submitText='Đăng nhập'>
 			<p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: 'var(--txt-secondary)', textAlign: 'center' }}>
-				Chưa có tài khoản?{' '}
-				<Link to='/register' style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
+				Chưa có tài khoản?
+				<Link to={ROUTES.REGISTER.path} style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
 					Đăng ký
 				</Link>
 			</p>

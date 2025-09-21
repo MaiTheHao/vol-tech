@@ -5,7 +5,7 @@ const allowedOrigins = env.CORS_ORIGIN
 			.map((o) => o.trim())
 			.filter(Boolean)
 	: ['*'];
-const allowedMethods = env.CORS_METHODS || 'GET,POST,PUT,DELETE';
+const allowedMethods = env.CORS_METHODS || 'GET,POST,PUT,DELETE,PATCH,OPTIONS';
 const allowCredentials = env.CORS_CREDENTIALS;
 
 export function cors(req, res, next) {

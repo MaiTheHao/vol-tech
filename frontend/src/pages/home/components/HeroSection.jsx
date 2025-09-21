@@ -1,7 +1,7 @@
 import { ArrowRight, Heart, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import styles from './HeroSection.module.scss';
-import { ROUTES } from '../../../const/index.js';
+import { ROUTES } from '../../../const/route.js';
 import Button, { BUTTON_AS, BUTTON_VARIANTS } from '../../../components/shared/button/Button';
 import AppSection from '../../../components/shared/app-section/AppSection';
 
